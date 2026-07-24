@@ -110,7 +110,7 @@
 
   #list{display:flex;flex-direction:column;gap:12px}
   .game{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
-    padding:16px 16px 14px;position:relative;transition:box-shadow .2s ease;animation:pop .25s ease}
+    padding:16px 16px 14px;position:relative;transition:box-shadow .2s ease}
   @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .game.top{border-color:#dfe0fb;box-shadow:0 1px 2px rgba(79,70,229,.06),0 12px 30px rgba(79,70,229,.08)}
   .game .head{display:flex;align-items:flex-start;gap:12px}
@@ -121,6 +121,8 @@
   .game .name{font-size:18px;font-weight:800;letter-spacing:-.02em;margin:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .catbadge{font-size:14px;flex:none}
   .plat{font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 9px}
+  .plat.steam{color:#1b2838;background:#dfe6f2;text-decoration:none}
+  .plat.steam:hover{background:#cfd8ea}
   .game .note{margin:5px 0 0;color:#3d4250;font-size:14.5px}
   .game .meta{margin:7px 0 0;font-size:12.5px;color:var(--muted-2);font-weight:500}
   .score{flex:none;text-align:center;min-width:52px}
@@ -347,6 +349,7 @@
   var syncMode="connecting", failCount=0, channel=null, realtimeOk=false;
   var reloadTimer=null, reloading=false, pendingReload=false, pollTimer=null;
   var activeCat="all", addCat="game", addPlats={}, recOpen=false, roomOpen=false;
+  var lastSig="";
 
   function $(id){return document.getElementById(id);}
   function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
@@ -403,7 +406,8 @@
         createdAt:+r.created_at||0,editedAt:+r.edited_at||0,removed:!!r.removed,votes:{}};});
       (vr.data||[]).forEach(function(v){var g=map[v.item_id];if(g)g.votes[v.player_id]={r:v.reaction||null,t:+v.updated_at||0,name:v.name||"кто-то"};});
       state.games=Object.keys(map).map(function(k){return map[k];});
-      failCount=0;setStatus("online");saveCache();render();renderRecs();
+      failCount=0;setStatus("online");saveCache();
+      if(sigOf()!==lastSig){render();renderRecs();}
     }).catch(function(){failCount++;if(failCount>=2)setStatus("local");})
       .then(function(){reloading=false;if(pendingReload){pendingReload=false;scheduleReload();}});
   }
@@ -411,7 +415,7 @@
   // ---------- запись в БД (оптимистично: сразу локально, потом на сервер) ----------
   function dbItemRow(item){return {id:item.id,room:room,type:item.type,title:item.title,platforms:item.platforms,
     note:item.note,added_by:item.addedBy,added_by_id:item.addedById,created_at:item.createdAt,edited_at:item.editedAt,removed:!!item.removed};}
-  function okErr(res){ if(res&&res.error){setStatus("local");} else {setStatus("online");} scheduleReload(); }
+  function okErr(res){ if(res&&res.error){setStatus("local");} else {setStatus("online");} }
 
   function ensureName(cb){ if(me.name){return true;} openNameModal(cb); return false; }
 
@@ -552,7 +556,9 @@
     r.items.forEach(function(c){html+='<div class="rec"><div class="rc-info"><div class="rc-title">'+esc(c.title)+'</div><div class="rc-tags">'+esc(c.t.slice(0,3).join(" · "))+'</div></div><button class="rc-add" title="Добавить" data-rec="'+esc(c.title)+'">＋</button></div>';});
     g.innerHTML=html;
   }
+  function sigOf(){return activeCat+"|"+JSON.stringify(state.games);}
   function render(){
+    lastSig=sigOf();
     renderTabs();
     var arr=filtered(),list=$("list"),empty=$("empty");
     $("countLbl").textContent=arr.length?(arr.length+" "+plural(arr.length,["позиция","позиции","позиций"])):"";
@@ -564,12 +570,13 @@
       var scoreCls=c.score>0?"pos":(c.score<0?"neg":"zero"),topCls=(i===0&&c.score>0)?" top":"";
       var canDel=!g.addedById||g.addedById===me.id;
       var plats=(g.type==="game"&&g.platforms&&g.platforms.length)?g.platforms.map(function(p){return '<span class="plat">'+esc(p)+'</span>';}).join(""):"";
+      var steam=(g.type==="game")?' <a class="plat steam" href="https://store.steampowered.com/search/?term='+encodeURIComponent(g.title)+'" target="_blank" rel="noopener noreferrer">Steam ↗</a>':"";
       var reactsHtml="";for(var j=0;j<REACTS.length;j++){var R=REACTS[j],on=myR===R.k?" on "+R.k:"";
         reactsHtml+='<button class="react'+on+'" data-vote="'+R.k+'" data-id="'+g.id+'"><span class="emo">'+R.emo+'</span>'+R.label+' <span class="cnt">'+c[R.k]+'</span></button>';}
       var voterLines="";for(var k=0;k<REACTS.length;k++){var RK=REACTS[k],names=vb[RK.k];if(names&&names.length)voterLines+='<div class="vline"><span class="em">'+RK.emo+'</span> <b>'+esc(names.join(", "))+'</b></div>';}
       html+='<div class="game'+topCls+'">'+(canDel?'<button class="del" data-del="'+g.id+'" title="Убрать">×</button>':'')+
         '<div class="head"><div class="rank">'+(i+1)+'</div><div class="info">'+
-          '<p class="name"><span class="catbadge">'+(g.type==="movie"?"🎬":"🎮")+'</span>'+esc(g.title)+plats+'</p>'+
+          '<p class="name"><span class="catbadge">'+(g.type==="movie"?"🎬":"🎮")+'</span>'+esc(g.title)+plats+steam+'</p>'+
           (g.note?'<p class="note">'+esc(g.note)+'</p>':'')+
           '<p class="meta">'+(g.addedBy?'добавил(а) '+esc(g.addedBy):'из примеров')+'</p></div>'+
           '<div class="score '+scoreCls+'"><div class="val">'+(c.score>0?"+":"")+c.score+'</div><div class="lbl">хайп</div></div></div>'+
