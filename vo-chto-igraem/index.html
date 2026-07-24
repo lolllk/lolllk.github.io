@@ -282,7 +282,7 @@
 
   var API="https://jsonblob.com/api/jsonBlob/";
   var DEFAULT_ROOM="019f91e5-a9bc-7350-bb25-e8b85bd65b78";
-  var POLL_MS=5000, PUSH_DEBOUNCE=550;
+  var POLL_MS=4000, PUSH_DEBOUNCE=550;
 
   var REACTS=[{k:"go",label:"Го",emo:"🔥"},{k:"ok",label:"Можно",emo:"👍"},{k:"mb",label:"Мб",emo:"🤔"},{k:"no",label:"Не",emo:"👎"}];
   var W={go:2,ok:1,mb:0,no:-1};
@@ -340,7 +340,7 @@
 
   var me={id:null,name:null};
   var room=DEFAULT_ROOM;
-  var state={v:1,games:[],updatedAt:0};
+  var state={v:1,games:[],updatedAt:0,spin:null};
   var syncMode="connecting", localVer=0, syncedVer=0, syncing=false, failCount=0, soonTimer=null, pollTimer=null;
   var activeCat="all";      // фильтр: all | game | movie
   var addCat="game";        // категория в форме добавления
@@ -391,7 +391,12 @@
         votes:votes
       });
     }
-    return {v:1,games:out,updatedAt:(+s.updatedAt||0)};
+    var sp=null;
+    if(s.spin&&typeof s.spin==="object"&&s.spin.id){
+      sp={id:String(s.spin.id),by:String(s.spin.by||"кто-то"),byId:String(s.spin.byId||""),
+          at:(+s.spin.at||0),resultTitle:String(s.spin.resultTitle||""),resultType:(s.spin.resultType==="movie"?"movie":"game")};
+    }
+    return {v:1,games:out,updatedAt:(+s.updatedAt||0),spin:sp};
   }
   function mergeGame(a,b){
     var base=(b.editedAt||0)>(a.editedAt||0)?b:a, votes={},pid;
@@ -407,7 +412,8 @@
     for(i=0;i<a.games.length;i++)map[a.games[i].id]=a.games[i];
     for(i=0;i<b.games.length;i++){g=b.games[i];map[g.id]=map[g.id]?mergeGame(map[g.id],g):g;}
     var games=[];for(var id in map)games.push(map[id]);
-    return {v:1,games:games,updatedAt:Math.max(a.updatedAt||0,b.updatedAt||0)};
+    var as=a.spin,bs=b.spin,spin=(as&&bs)?(((bs.at||0)>=(as.at||0))?bs:as):(as||bs||null);
+    return {v:1,games:games,updatedAt:Math.max(a.updatedAt||0,b.updatedAt||0),spin:spin};
   }
 
   function counts(g){var c={go:0,ok:0,mb:0,no:0},s=0;for(var pid in g.votes){var r=g.votes[pid].r;if(r&&c.hasOwnProperty(r)){c[r]++;s+=W[r];}}c.score=s;return c;}
@@ -458,32 +464,54 @@
   }
 
   // ---------- рулетка ----------
-  var roulTimer=null;
-  function openRoulette(){
+  var roulTimer=null, lastSpinId=null;
+
+  // Инициатор: выбирает результат, крутит у себя и рассылает событие всем в комнате.
+  function initiateSpin(){
     var pool=filtered();
     if(!pool.length){toast("Список пуст — сначала добавь что-нибудь");return;}
+    if(!ensureName(function(){initiateSpin();}))return;
     var good=pool.filter(function(g){return counts(g).score>=0;}); if(good.length)pool=good;
-    $("roulLabel").textContent="Крутим барабан…";
-    $("roulOverlay").classList.add("show");
-    var box=$("roulOverlay").querySelector(".roul"); box.classList.add("spin");
-    var pickEl=$("roulPick");
+    var fin=pool[Math.floor(Math.random()*pool.length)];
+    var evt={id:uid(),by:me.name||"кто-то",byId:me.id,at:now(),resultTitle:fin.title,resultType:fin.type};
+    state.spin=evt; lastSpinId=evt.id;
+    playSpin(evt);
+    bumpLocal();                 // разослать рулетку всем через общий стор
+  }
+
+  // Проиграть анимацию рулетки по событию (своему или чужому), с подписью кто крутит.
+  function playSpin(evt){
+    var pool=filtered();
+    var box=$("roulOverlay").querySelector(".roul"), pickEl=$("roulPick");
+    $("roulLabel").innerHTML = evt.byId===me.id ? "Ты запускаешь рулетку 🎲" : (esc(evt.by)+" крутит рулетку 🎲");
+    $("roulOverlay").classList.add("show"); box.classList.add("spin");
     var delay=60, elapsed=0, total=1900;
     clearTimeout(roulTimer);
+    function flip(txt,type){ pickEl.innerHTML='<span class="cb">'+(type==="movie"?"🎬":"🎮")+'</span>'+esc(txt); }
     function tick(){
-      var r=pool[Math.floor(Math.random()*pool.length)];
-      pickEl.innerHTML='<span class="cb">'+(r.type==="movie"?"🎬":"🎮")+'</span>'+esc(r.title);
+      if(pool.length){var r=pool[Math.floor(Math.random()*pool.length)];flip(r.title,r.type);}
+      else flip(evt.resultTitle,evt.resultType);
       elapsed+=delay;
       if(elapsed>=total){
-        var fin=pool[Math.floor(Math.random()*pool.length)];
-        pickEl.innerHTML='<span class="cb">'+(fin.type==="movie"?"🎬":"🎮")+'</span>'+esc(fin.title);
+        flip(evt.resultTitle,evt.resultType);
         box.classList.remove("spin");
-        $("roulLabel").textContent="Погнали в это! 🎉";
+        $("roulLabel").innerHTML = evt.byId===me.id
+          ? "Погнали в это! 🎉"
+          : "Погнали в это! 🎉 <span style=\"color:var(--muted-2);font-weight:700\">— крутил(а) "+esc(evt.by)+"</span>";
         return;
       }
-      if(elapsed>total*0.6)delay+=22; // замедление
+      if(elapsed>total*0.6)delay+=22;
       roulTimer=setTimeout(tick,delay);
     }
     tick();
+  }
+
+  // Поймать чужую рулетку из общего стора и проиграть у себя (только свежие события).
+  function maybePlayRemoteSpin(){
+    var sp=state.spin; if(!sp||!sp.id)return;
+    if(sp.id===lastSpinId)return;
+    lastSpinId=sp.id;
+    if((now()-(sp.at||0))<25000) playSpin(sp);
   }
 
   function setStatus(mode){
@@ -505,6 +533,7 @@
     return apiGet().then(function(server){
       var before=JSON.stringify(state);state=mergeState(state,server);
       if(JSON.stringify(state)!==before){saveLocal();render();}
+      maybePlayRemoteSpin();
     }).then(function(){
       if(localVer!==syncedVer){var v=localVer;state.updatedAt=now();return apiPut(state).then(function(){syncedVer=v;saveLocal();render();});}
     }).then(function(){failCount=0;setStatus("online");})
@@ -637,9 +666,9 @@
     $("list").addEventListener("click",function(e){var vb=e.target.closest("[data-vote]");if(vb){vote(vb.getAttribute("data-id"),vb.getAttribute("data-vote"));return;}var db=e.target.closest("[data-del]");if(db){delItem(db.getAttribute("data-del"));return;}});
     $("recgrid").addEventListener("click",function(e){var b=e.target.closest("[data-rec]");if(b)addFromCatalog(b.getAttribute("data-rec"));});
     $("ideaBtn").addEventListener("click",function(){recOpen=!recOpen;$("recsPanel").classList.toggle("open",recOpen);if(recOpen)renderRecs();});
-    $("rouletteBtn").addEventListener("click",openRoulette);
+    $("rouletteBtn").addEventListener("click",initiateSpin);
     $("roulClose").addEventListener("click",function(){clearTimeout(roulTimer);$("roulOverlay").classList.remove("show");});
-    $("roulAgain").addEventListener("click",openRoulette);
+    $("roulAgain").addEventListener("click",initiateSpin);
     $("roulOverlay").addEventListener("click",function(e){if(e.target===$("roulOverlay")){clearTimeout(roulTimer);$("roulOverlay").classList.remove("show");}});
     $("editName").addEventListener("click",function(){openNameModal();});
     $("nameSave").addEventListener("click",saveName);
@@ -662,6 +691,7 @@
     if(hm)room=hm[1];else room=lsGet("vig_room")||DEFAULT_ROOM;
     lsSet("vig_room",room);updateHash();
     var cached=loadLocal(room);if(cached)state=cached;
+    lastSpinId=state.spin?state.spin.id:null;
     renderIdentity();render();setStatus(isLocalRoom(room)?"local":"connecting");
     if(!me.name)openNameModal();
     syncTick();startPolling();
