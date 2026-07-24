@@ -171,6 +171,39 @@
   #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#0f1222;color:#fff;padding:11px 18px;border-radius:999px;
     font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s ease;z-index:60;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:88%;text-align:center}
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* match badge on cards */
+  .matchbadge{font-size:11px;font-weight:800;color:#0f7a3d;background:var(--go-bg);border-radius:999px;padding:3px 9px}
+
+  /* swipe mode */
+  #swipeOverlay .swipe-wrap{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center}
+  .swipe-head{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;color:#fff}
+  #swipeCounter{font-weight:700;font-size:14px;opacity:.92}
+  .swipe-x{background:rgba(255,255,255,.2);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:16px;cursor:pointer}
+  .swipe-stack{position:relative;width:100%;height:410px}
+  .swipe-card{position:absolute;inset:0;background:#fff;border-radius:22px;box-shadow:0 18px 50px rgba(0,0,0,.32);padding:26px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;touch-action:none;will-change:transform;user-select:none}
+  .swipe-card .sc-badge{font-size:42px;margin-bottom:10px}
+  .swipe-card .sc-title{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.1}
+  .swipe-card .sc-plats{margin-top:12px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+  .swipe-card .sc-note{margin-top:14px;color:#3d4250;font-size:15px}
+  .swipe-card .sc-meta{margin-top:12px;color:var(--muted-2);font-size:12.5px;font-weight:600}
+  .swipe-card .sc-stamp{position:absolute;top:24px;font-size:24px;font-weight:900;padding:6px 14px;border-radius:12px;border:3px solid;opacity:0}
+  .swipe-card .sc-stamp.go{right:24px;color:var(--go);border-color:var(--go);transform:rotate(14deg)}
+  .swipe-card .sc-stamp.no{left:24px;color:var(--no);border-color:var(--no);transform:rotate(-14deg)}
+  .swipe-empty{color:#fff;text-align:center;font-size:18px;font-weight:700;padding:30px 10px}
+  .swipe-empty .big{font-size:46px;margin-bottom:10px}
+  .swipe-actions{display:flex;gap:14px;margin-top:20px;align-items:center}
+  .sw-btn{width:58px;height:58px;border-radius:50%;border:none;font-size:25px;cursor:pointer;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.28);transition:transform .08s}
+  .sw-btn:active{transform:scale(.9)}
+  .sw-btn.go{width:70px;height:70px;font-size:30px}
+  .swipe-hint{color:rgba(255,255,255,.82);font-size:12px;margin-top:14px;font-weight:600;text-align:center}
+  #matchPop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:70;pointer-events:none;background:rgba(15,18,34,.35)}
+  #matchPop.show{display:flex;animation:fade .2s ease}
+  #matchPop .mp-inner{text-align:center;animation:pop .3s ease}
+  #matchPop .mp-emo{font-size:82px}
+  #matchPop .mp-title{font-size:30px;font-weight:900;color:#fff;margin-top:4px;text-shadow:0 2px 20px rgba(0,0,0,.5)}
+  #matchPop .mp-sub{font-size:16px;font-weight:800;color:#34d17a;margin-top:4px}
 </style>
 </head>
 <body>
@@ -194,6 +227,12 @@
     <button class="linkbtn" id="roomToggle">комнаты ⚙︎</button>
   </div>
 
+  <div class="panel bar" id="meetBar">
+    <span class="chip-i">🗓️ <span class="k">Сегодня в деле:</span>&nbsp;<b id="readyWho">пока никто</b></span>
+    <span class="grow"></span>
+    <button class="btn sm" id="readyBtn">Я в деле 🙋</button>
+  </div>
+
   <div class="room panel" id="roomPanel">
     <h3>Комната для своей компании</h3>
     <p class="hint">По умолчанию вы все в общей комнате — просто откройте одну ссылку. Хотите приватную доску только для своих — создайте новую и киньте друзьям код или ссылку.</p>
@@ -213,8 +252,9 @@
   </div>
 
   <div class="actions">
-    <button class="btn play" id="rouletteBtn">🎲 Что запускаем?</button>
-    <button class="btn idea" id="ideaBtn">💡 Идеи что добавить</button>
+    <button class="btn play" id="swipeBtn">🔥 Свайп-режим</button>
+    <button class="btn ghost" id="rouletteBtn">🎲 Рулетка</button>
+    <button class="btn idea" id="ideaBtn">💡 Идеи</button>
   </div>
 
   <div class="recs panel" id="recsPanel">
@@ -271,6 +311,21 @@
     </div>
   </div>
 </div>
+
+<div class="overlay" id="swipeOverlay">
+  <div class="swipe-wrap">
+    <div class="swipe-head"><span id="swipeCounter"></span><button class="swipe-x" id="swipeClose">✕</button></div>
+    <div class="swipe-stack" id="swipeStack"></div>
+    <div class="swipe-actions">
+      <button class="sw-btn no" data-sw="no" title="Не (←)">👎</button>
+      <button class="sw-btn mb" data-sw="mb" title="Мб">🤔</button>
+      <button class="sw-btn ok" data-sw="ok" title="Можно">👍</button>
+      <button class="sw-btn go" data-sw="go" title="Го (→)">🔥</button>
+    </div>
+    <div class="swipe-hint">← Не&nbsp;&nbsp;·&nbsp;&nbsp;Го →&nbsp;&nbsp;·&nbsp;&nbsp;свайпай карточку или тапай кнопки</div>
+  </div>
+</div>
+<div id="matchPop"><div class="mp-inner"><div class="mp-emo">🎉</div><div class="mp-title" id="mpTitle"></div><div class="mp-sub">Мэтч! Все за</div></div></div>
 
 <div id="toast"></div>
 
@@ -345,7 +400,7 @@
 
   var me={id:null,name:null};
   var room=DEFAULT_ROOM;
-  var state={games:[]};
+  var state={games:[],ready:{}};
   var syncMode="connecting", failCount=0, channel=null, realtimeOk=false;
   var reloadTimer=null, reloading=false, pendingReload=false, pollTimer=null;
   var activeCat="all", addCat="game", addPlats={}, recOpen=false, roomOpen=false;
@@ -396,10 +451,12 @@
     reloading=true;
     return Promise.all([
       sb.from("vig_items").select("*").eq("room",room),
-      sb.from("vig_votes").select("*").eq("room",room)
+      sb.from("vig_votes").select("*").eq("room",room),
+      sb.from("vig_ready").select("*").eq("room",room).eq("day",today())
     ]).then(function(res){
-      var ir=res[0],vr=res[1];
+      var ir=res[0],vr=res[1],rr=res[2];
       if(ir.error||vr.error)throw (ir.error||vr.error);
+      var ready={};(((rr&&rr.data))||[]).forEach(function(r){ready[r.player_id]={name:r.name||"кто-то",day:r.day};});state.ready=ready;
       var map={};
       (ir.data||[]).forEach(function(r){map[r.id]={id:r.id,type:(r.type==="movie"?"movie":"game"),title:r.title||"Без названия",
         platforms:Array.isArray(r.platforms)?r.platforms:[],note:r.note||"",addedBy:r.added_by||"",addedById:r.added_by_id||"",
@@ -495,6 +552,7 @@
     channel=sb.channel("vig-"+room,{config:{broadcast:{self:false}}});
     channel.on("postgres_changes",{event:"*",schema:"public",table:"vig_items",filter:"room=eq."+room},function(){scheduleReload();})
            .on("postgres_changes",{event:"*",schema:"public",table:"vig_votes",filter:"room=eq."+room},function(){scheduleReload();})
+           .on("postgres_changes",{event:"*",schema:"public",table:"vig_ready",filter:"room=eq."+room},function(){scheduleReload();})
            .on("broadcast",{event:"spin"},function(msg){if(msg&&msg.payload)playSpin(msg.payload);})
            .subscribe(function(status){if(status==="SUBSCRIBED"){realtimeOk=true;setStatus("online");}});
   }
@@ -556,10 +614,10 @@
     r.items.forEach(function(c){html+='<div class="rec"><div class="rc-info"><div class="rc-title">'+esc(c.title)+'</div><div class="rc-tags">'+esc(c.t.slice(0,3).join(" · "))+'</div></div><button class="rc-add" title="Добавить" data-rec="'+esc(c.title)+'">＋</button></div>';});
     g.innerHTML=html;
   }
-  function sigOf(){return activeCat+"|"+JSON.stringify(state.games);}
+  function sigOf(){return activeCat+"|"+JSON.stringify(state.games)+"|"+JSON.stringify(state.ready);}
   function render(){
     lastSig=sigOf();
-    renderTabs();
+    renderTabs();renderMeetBar();
     var arr=filtered(),list=$("list"),empty=$("empty");
     $("countLbl").textContent=arr.length?(arr.length+" "+plural(arr.length,["позиция","позиции","позиций"])):"";
     if(!arr.length){list.innerHTML="";empty.style.display="block";
@@ -571,12 +629,13 @@
       var canDel=!g.addedById||g.addedById===me.id;
       var plats=(g.type==="game"&&g.platforms&&g.platforms.length)?g.platforms.map(function(p){return '<span class="plat">'+esc(p)+'</span>';}).join(""):"";
       var steam=(g.type==="game")?' <a class="plat steam" href="https://store.steampowered.com/search/?term='+encodeURIComponent(g.title)+'" target="_blank" rel="noopener noreferrer">Steam ↗</a>':"";
+      var mm=isMatch(g)?' <span class="matchbadge">🎉 мэтч</span>':"";
       var reactsHtml="";for(var j=0;j<REACTS.length;j++){var R=REACTS[j],on=myR===R.k?" on "+R.k:"";
         reactsHtml+='<button class="react'+on+'" data-vote="'+R.k+'" data-id="'+g.id+'"><span class="emo">'+R.emo+'</span>'+R.label+' <span class="cnt">'+c[R.k]+'</span></button>';}
       var voterLines="";for(var k=0;k<REACTS.length;k++){var RK=REACTS[k],names=vb[RK.k];if(names&&names.length)voterLines+='<div class="vline"><span class="em">'+RK.emo+'</span> <b>'+esc(names.join(", "))+'</b></div>';}
       html+='<div class="game'+topCls+'">'+(canDel?'<button class="del" data-del="'+g.id+'" title="Убрать">×</button>':'')+
         '<div class="head"><div class="rank">'+(i+1)+'</div><div class="info">'+
-          '<p class="name"><span class="catbadge">'+(g.type==="movie"?"🎬":"🎮")+'</span>'+esc(g.title)+plats+steam+'</p>'+
+          '<p class="name"><span class="catbadge">'+(g.type==="movie"?"🎬":"🎮")+'</span>'+esc(g.title)+plats+steam+mm+'</p>'+
           (g.note?'<p class="note">'+esc(g.note)+'</p>':'')+
           '<p class="meta">'+(g.addedBy?'добавил(а) '+esc(g.addedBy):'из примеров')+'</p></div>'+
           '<div class="score '+scoreCls+'"><div class="val">'+(c.score>0?"+":"")+c.score+'</div><div class="lbl">хайп</div></div></div>'+
@@ -585,8 +644,98 @@
     list.innerHTML=html;
   }
 
+  // ---------- «сегодня в деле» ----------
+  function p2(n){return (n<10?"0":"")+n;}
+  function today(){var d=new Date();return d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate());}
+  function isMatch(g){var c=counts(g);return c.go>=3&&c.no<=1;}
+  function renderMeetBar(){
+    var ids=Object.keys(state.ready||{});var names=ids.map(function(k){return state.ready[k].name;});
+    var inNow=!!(state.ready&&state.ready[me.id]);
+    $("readyWho").textContent=names.length?(names.join(", ")+" ("+names.length+")"):"пока никто";
+    var b=$("readyBtn");b.textContent=inNow?"Я пас 🚪":"Я в деле 🙋";b.classList.toggle("ghost",inNow);
+  }
+  function toggleReady(){
+    if(!ensureName(function(){toggleReady();}))return;
+    var inNow=!!state.ready[me.id];
+    if(inNow)delete state.ready[me.id];else state.ready[me.id]={name:me.name,day:today()};
+    render();
+    if(sb)sb.from("vig_ready").upsert({room:room,player_id:me.id,name:me.name,day:(inNow?"":today()),updated_at:now()},{onConflict:"room,player_id"}).then(function(res){okErr(res);},function(){setStatus("local");});
+  }
+  function setVote(gid,reaction){
+    var g=findItem(gid);if(!g||!me.name)return;
+    g.votes[me.id]={r:reaction,t:now(),name:me.name};g.editedAt=now();saveCache();render();
+    if(sb)sb.from("vig_votes").upsert({item_id:gid,player_id:me.id,room:room,reaction:reaction,name:me.name,updated_at:now()},{onConflict:"item_id,player_id"}).then(function(res){okErr(res);},function(){setStatus("local");});
+  }
+
+  // ---------- свайп-режим (Тиндер для игр) ----------
+  var swipeQ=[],swipeIdx=0,docMove=null,docUp=null;
+  function openSwipe(){
+    var pool=filtered();if(!pool.length){toast("Список пуст — сначала добавь что-нибудь");return;}
+    if(!ensureName(function(){openSwipe();}))return;
+    swipeQ=pool.slice();swipeIdx=0;$("swipeOverlay").classList.add("show");renderSwipeCard();
+  }
+  function closeSwipe(){detachDrag();$("swipeOverlay").classList.remove("show");}
+  function renderSwipeCard(){
+    detachDrag();var stack=$("swipeStack");
+    if(swipeIdx>=swipeQ.length){
+      $("swipeCounter").textContent="Готово";
+      var matches=filtered().filter(isMatch).slice(0,6);
+      var mh=matches.length?matches.map(function(g){return "🎉 "+esc(g.title);}).join("<br>"):"Единогласного мэтча пока нет — но голоса записаны 👍";
+      stack.innerHTML='<div class="swipe-empty"><div class="big">✅</div>Готово!<div style="margin-top:16px;font-size:15px">Мэтчи:</div><div style="margin-top:8px;font-size:15px;font-weight:800;line-height:1.7">'+mh+'</div></div>';
+      return;
+    }
+    $("swipeCounter").textContent="Карточка "+(swipeIdx+1)+" из "+swipeQ.length;
+    var g=swipeQ[swipeIdx];var c=counts(g);
+    var plats=(g.type==="game"&&g.platforms&&g.platforms.length)?g.platforms.map(function(p){return '<span class="plat">'+esc(p)+'</span>';}).join(""):"";
+    stack.innerHTML='<div class="swipe-card" id="swCard">'+
+      '<div class="sc-stamp go">ГО</div><div class="sc-stamp no">НЕ</div>'+
+      '<div class="sc-badge">'+(g.type==="movie"?"🎬":"🎮")+'</div>'+
+      '<div class="sc-title">'+esc(g.title)+'</div>'+
+      (plats?'<div class="sc-plats">'+plats+'</div>':'')+
+      (g.note?'<div class="sc-note">'+esc(g.note)+'</div>':'')+
+      '<div class="sc-meta">сейчас 🔥'+c.go+' · 👍'+c.ok+' · 🤔'+c.mb+' · 👎'+c.no+(g.addedBy?' · от '+esc(g.addedBy):'')+'</div>'+
+      '</div>';
+    attachDrag($("swCard"));
+  }
+  function swipeChoose(reaction){
+    if(swipeIdx>=swipeQ.length)return;
+    var g=swipeQ[swipeIdx];var was=isMatch(g);
+    setVote(g.id,reaction);
+    if(reaction==="go"&&!was&&isMatch(g))celebrateMatch(g.title);
+    swipeIdx++;renderSwipeCard();
+  }
+  function celebrateMatch(title){$("mpTitle").textContent=title;var mp=$("matchPop");mp.classList.add("show");setTimeout(function(){mp.classList.remove("show");},1500);}
+  function detachDrag(){if(docMove){document.removeEventListener("mousemove",docMove);document.removeEventListener("touchmove",docMove);}if(docUp){document.removeEventListener("mouseup",docUp);document.removeEventListener("touchend",docUp);}docMove=docUp=null;}
+  function attachDrag(card){
+    if(!card)return;detachDrag();
+    var startX=0,dx=0,dy=0,dragging=false;
+    var goS=card.querySelector(".sc-stamp.go"),noS=card.querySelector(".sc-stamp.no");
+    function point(e){var t=(e.touches&&e.touches[0])||e;return {x:t.clientX,y:t.clientY};}
+    function down(e){dragging=true;startX=point(e).x;card.style.transition="none";}
+    function move(e){if(!dragging)return;var p=point(e);dx=p.x-startX;dy=Math.abs(dx)/10;
+      card.style.transform="translate("+dx+"px,"+(dy)+"px) rotate("+(dx/18)+"deg)";
+      if(goS)goS.style.opacity=dx>15?Math.min(1,dx/120):0;
+      if(noS)noS.style.opacity=dx<-15?Math.min(1,-dx/120):0;}
+    function up(){if(!dragging)return;dragging=false;card.style.transition="transform .25s ease";
+      if(dx>110){card.style.transform="translate(600px,-40px) rotate(30deg)";swipeChoose("go");}
+      else if(dx<-110){card.style.transform="translate(-600px,-40px) rotate(-30deg)";swipeChoose("no");}
+      else{card.style.transform="";if(goS)goS.style.opacity=0;if(noS)noS.style.opacity=0;}}
+    docMove=move;docUp=up;
+    card.addEventListener("mousedown",down);card.addEventListener("touchstart",down,{passive:true});
+    document.addEventListener("mousemove",move);document.addEventListener("mouseup",up);
+    document.addEventListener("touchmove",move,{passive:true});document.addEventListener("touchend",up);
+  }
+
   function bind(){
     $("addBtn").addEventListener("click",addItem);
+    $("swipeBtn").addEventListener("click",openSwipe);
+    $("readyBtn").addEventListener("click",toggleReady);
+    $("swipeClose").addEventListener("click",closeSwipe);
+    $("swipeOverlay").querySelector(".swipe-actions").addEventListener("click",function(e){var b=e.target.closest("[data-sw]");if(b)swipeChoose(b.getAttribute("data-sw"));});
+    $("swipeOverlay").addEventListener("click",function(e){if(e.target===$("swipeOverlay"))closeSwipe();});
+    document.addEventListener("keydown",function(e){if(!$("swipeOverlay").classList.contains("show"))return;
+      if(e.key==="ArrowLeft")swipeChoose("no");else if(e.key==="ArrowRight")swipeChoose("go");
+      else if(e.key==="ArrowUp")swipeChoose("ok");else if(e.key==="ArrowDown")swipeChoose("mb");else if(e.key==="Escape")closeSwipe();});
     $("gTitle").addEventListener("keydown",function(e){if(e.key==="Enter")addItem();});
     $("gNote").addEventListener("keydown",function(e){if(e.key==="Enter")addItem();});
     $("catSeg").addEventListener("click",function(e){var b=e.target.closest("[data-cat]");if(b)setAddCat(b.getAttribute("data-cat"));});
