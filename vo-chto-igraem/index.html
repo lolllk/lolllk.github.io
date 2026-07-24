@@ -9,55 +9,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#f6f7f9;
-    --card:#ffffff;
-    --line:#e8eaef;
-    --line-2:#eef0f4;
-    --text:#0f1222;
-    --muted:#6b7280;
-    --muted-2:#9aa1ad;
-    --accent:#4f46e5;
-    --accent-soft:#eef0ff;
-    --go:#16a34a;   --go-bg:#e9f9ef;
-    --ok:#2563eb;   --ok-bg:#e9f0fe;
-    --mb:#d97706;   --mb-bg:#fdf3e3;
-    --no:#e11d48;   --no-bg:#fdecef;
+    --bg:#f6f7f9; --card:#ffffff; --line:#e8eaef; --line-2:#eef0f4;
+    --text:#0f1222; --muted:#6b7280; --muted-2:#9aa1ad;
+    --accent:#4f46e5; --accent-soft:#eef0ff;
+    --go:#16a34a; --go-bg:#e9f9ef; --ok:#2563eb; --ok-bg:#e9f0fe;
+    --mb:#d97706; --mb-bg:#fdf3e3; --no:#e11d48; --no-bg:#fdecef;
     --shadow:0 1px 2px rgba(15,18,34,.04), 0 8px 24px rgba(15,18,34,.05);
-    --radius:16px;
-    --radius-sm:11px;
+    --radius:16px; --radius-sm:11px;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{
-    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-  }
-  .wrap{max-width:760px;margin:0 auto;padding:28px 6% 96px}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 6% 110px}
   a{color:var(--accent)}
 
-  /* ---------- header ---------- */
   header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px}
   .brand h1{font-size:clamp(28px,6vw,40px);font-weight:900;letter-spacing:-.03em;margin:0;line-height:1.05}
   .brand p{margin:6px 0 0;color:var(--muted);font-size:15px;font-weight:500}
   .status{display:inline-flex;align-items:center;gap:7px;flex:none;background:var(--card);border:1px solid var(--line);
     border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:600;color:var(--muted);box-shadow:var(--shadow);white-space:nowrap;cursor:default}
   .status .dot{width:8px;height:8px;border-radius:50%;background:var(--muted-2);box-shadow:0 0 0 3px rgba(0,0,0,.03)}
-  .status.online .dot{background:var(--go);box-shadow:0 0 0 3px var(--go-bg)}
-  .status.online{color:#0f7a3d}
-  .status.local .dot{background:var(--mb)}
-  .status.local{color:#a65d05}
-  .status .spin{animation:sp 1s linear infinite}
-  @keyframes sp{to{transform:rotate(360deg)}}
+  .status.online .dot{background:var(--go);box-shadow:0 0 0 3px var(--go-bg)} .status.online{color:#0f7a3d}
+  .status.local .dot{background:var(--mb)} .status.local{color:#a65d05}
 
-  /* ---------- panels ---------- */
   .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
   .bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;margin-bottom:14px}
-  .chip{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--text)}
-  .chip .k{color:var(--muted);font-weight:600}
+  .chip-i{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--text)}
+  .chip-i .k{color:var(--muted);font-weight:600}
   .who-badge{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;
     background:var(--accent);color:#fff;font-size:12px;font-weight:800;flex:none}
   .bar .sep{width:1px;height:20px;background:var(--line);margin:0 2px}
@@ -65,51 +44,75 @@
   .linkbtn:hover{background:var(--accent-soft)}
   .grow{flex:1 1 auto}
 
-  /* room panel */
   .room{padding:0 14px;margin-bottom:14px;overflow:hidden;max-height:0;opacity:0;transition:max-height .28s ease,opacity .2s ease,padding .28s ease,margin .28s ease}
-  .room.open{max-height:420px;opacity:1;padding:14px;margin-bottom:14px}
-  .room h3{margin:0 0 4px;font-size:14px;font-weight:800;letter-spacing:-.01em}
+  .room.open{max-height:460px;opacity:1;padding:14px;margin-bottom:14px}
+  .room h3{margin:0 0 4px;font-size:14px;font-weight:800}
   .room p.hint{margin:0 0 12px;font-size:12.5px;color:var(--muted)}
   .room .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
-  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#f3f4f8;border:1px solid var(--line);
+  .code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:#f3f4f8;border:1px solid var(--line);
     border-radius:9px;padding:8px 10px;color:var(--text);flex:1 1 200px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-  /* ---------- inputs / buttons ---------- */
-  input[type=text]{
-    font:inherit;font-size:15px;color:var(--text);background:#fff;border:1px solid var(--line);
-    border-radius:var(--radius-sm);padding:12px 13px;width:100%;transition:border-color .15s,box-shadow .15s;outline:none
-  }
+  input[type=text]{font:inherit;font-size:15px;color:var(--text);background:#fff;border:1px solid var(--line);
+    border-radius:var(--radius-sm);padding:12px 13px;width:100%;transition:border-color .15s,box-shadow .15s;outline:none}
   input[type=text]::placeholder{color:var(--muted-2)}
   input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
   .btn{font:inherit;font-weight:700;font-size:15px;border:none;border-radius:var(--radius-sm);padding:12px 18px;cursor:pointer;
     background:var(--accent);color:#fff;transition:transform .06s ease,filter .15s ease;white-space:nowrap}
-  .btn:hover{filter:brightness(1.05)}
-  .btn:active{transform:translateY(1px)}
-  .btn.ghost{background:#f3f4f8;color:var(--text)}
-  .btn.ghost:hover{background:#eceef3}
+  .btn:hover{filter:brightness(1.05)} .btn:active{transform:translateY(1px)}
+  .btn.ghost{background:#f3f4f8;color:var(--text)} .btn.ghost:hover{background:#eceef3}
   .btn.sm{padding:9px 13px;font-size:13.5px}
 
+  /* action bar */
+  .actions{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+  .actions .btn{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn.play{background:linear-gradient(135deg,#5b54f0,#4f46e5)}
+  .btn.idea{background:#fff;color:var(--accent);border:1.5px solid var(--accent-soft)}
+  .btn.idea:hover{background:var(--accent-soft);filter:none}
+
   /* add form */
-  .add{padding:14px;margin-bottom:20px}
+  .add{padding:14px;margin-bottom:16px}
+  .seg{display:inline-flex;background:#f3f4f8;border-radius:10px;padding:3px;margin-bottom:12px;gap:2px}
+  .seg button{font:inherit;font-weight:700;font-size:13.5px;border:none;background:none;color:var(--muted);
+    padding:7px 14px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px}
+  .seg button.on{background:#fff;color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.08)}
   .add .title-row{display:flex;gap:10px}
   .add .title-row input{flex:1}
-  .add .meta-row{display:flex;gap:10px;margin-top:10px}
-  .add .meta-row input{flex:1}
-  @media(max-width:560px){
-    .add .title-row{flex-direction:column}
-    .add .meta-row{flex-direction:column}
-    .btn.add-btn{width:100%}
-  }
+  .add .note-row{margin-top:10px}
+  .plats{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+  .plats.hidden{display:none}
+  .pchip{font:inherit;font-weight:700;font-size:12.5px;border:1.5px solid var(--line-2);background:#f7f8fa;color:#54596a;
+    border-radius:999px;padding:7px 13px;cursor:pointer;transition:all .12s ease;user-select:none}
+  .pchip:hover{border-color:#d7dae2}
+  .pchip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  @media(max-width:560px){ .add .title-row{flex-direction:column} .btn.add-btn{width:100%} }
 
-  /* section label */
-  .section-label{display:flex;align-items:baseline;gap:10px;margin:4px 2px 12px}
-  .section-label h2{font-size:15px;font-weight:800;letter-spacing:-.01em;margin:0}
-  .section-label span{font-size:13px;color:var(--muted);font-weight:600}
+  /* recommendations */
+  .recs{padding:0 14px;overflow:hidden;max-height:0;opacity:0;margin-bottom:0;
+    transition:max-height .3s ease,opacity .2s ease,padding .3s ease,margin .3s ease}
+  .recs.open{max-height:1000px;opacity:1;padding:14px;margin-bottom:16px}
+  .recs h3{margin:0 0 3px;font-size:14px;font-weight:800}
+  .recs .sub{margin:0 0 12px;font-size:12.5px;color:var(--muted)}
+  .recgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  @media(max-width:560px){ .recgrid{grid-template-columns:1fr} }
+  .rec{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:9px 10px;background:#fcfcfe}
+  .rec .rc-info{flex:1;min-width:0}
+  .rec .rc-title{font-weight:800;font-size:14px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rec .rc-tags{font-size:11px;color:var(--muted-2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+  .rec .rc-add{flex:none;width:34px;height:34px;border-radius:9px;border:none;background:var(--accent-soft);color:var(--accent);
+    font-size:20px;font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center}
+  .rec .rc-add:hover{background:var(--accent);color:#fff}
 
-  /* ---------- game card ---------- */
+  /* filter tabs */
+  .tabs{display:flex;gap:8px;margin:2px 0 14px;flex-wrap:wrap}
+  .tab{font:inherit;font-weight:700;font-size:13.5px;border:1px solid var(--line);background:var(--card);color:var(--muted);
+    padding:8px 14px;border-radius:999px;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:var(--shadow);transition:all .12s ease}
+  .tab:hover{border-color:#d7dae2}
+  .tab.on{background:var(--text);color:#fff;border-color:var(--text)}
+  .tab .cnt{font-variant-numeric:tabular-nums;opacity:.7}
+
   #list{display:flex;flex-direction:column;gap:12px}
   .game{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
-    padding:16px 16px 14px;position:relative;transition:box-shadow .2s ease,transform .2s ease;animation:pop .25s ease}
+    padding:16px 16px 14px;position:relative;transition:box-shadow .2s ease;animation:pop .25s ease}
   @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .game.top{border-color:#dfe0fb;box-shadow:0 1px 2px rgba(79,70,229,.06),0 12px 30px rgba(79,70,229,.08)}
   .game .head{display:flex;align-items:flex-start;gap:12px}
@@ -118,23 +121,19 @@
   .game.top .rank{background:var(--accent);color:#fff}
   .game .info{flex:1;min-width:0}
   .game .name{font-size:18px;font-weight:800;letter-spacing:-.02em;margin:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .plat{font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 9px;letter-spacing:.01em}
+  .catbadge{font-size:14px;flex:none}
+  .plat{font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 9px}
   .game .note{margin:5px 0 0;color:#3d4250;font-size:14.5px}
   .game .meta{margin:7px 0 0;font-size:12.5px;color:var(--muted-2);font-weight:500}
   .score{flex:none;text-align:center;min-width:52px}
   .score .val{font-size:22px;font-weight:900;letter-spacing:-.03em;line-height:1}
   .score .lbl{font-size:10px;font-weight:700;color:var(--muted-2);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
   .score.pos .val{color:var(--go)} .score.neg .val{color:var(--no)} .score.zero .val{color:var(--muted)}
-
-  .del{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--muted-2);font-size:18px;line-height:1;
-    cursor:pointer;padding:4px;border-radius:8px;opacity:.6}
+  .del{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--muted-2);font-size:18px;line-height:1;cursor:pointer;padding:4px;border-radius:8px;opacity:.6}
   .del:hover{background:var(--no-bg);color:var(--no);opacity:1}
-
-  /* reactions */
   .reacts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-  .react{flex:1 1 0;min-width:74px;display:flex;align-items:center;justify-content:center;gap:7px;
-    background:#f7f8fa;border:1.5px solid var(--line-2);border-radius:12px;padding:10px 8px;cursor:pointer;
-    font:inherit;font-weight:700;font-size:14px;color:#54596a;transition:all .13s ease;user-select:none}
+  .react{flex:1 1 0;min-width:74px;display:flex;align-items:center;justify-content:center;gap:7px;background:#f7f8fa;border:1.5px solid var(--line-2);
+    border-radius:12px;padding:10px 8px;cursor:pointer;font:inherit;font-weight:700;font-size:14px;color:#54596a;transition:all .13s ease;user-select:none}
   .react:hover{border-color:#d7dae2;background:#f2f3f7}
   .react .emo{font-size:16px;line-height:1}
   .react .cnt{font-variant-numeric:tabular-nums;font-weight:800;min-width:12px;text-align:center}
@@ -142,32 +141,36 @@
   .react.on.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
   .react.on.mb{background:var(--mb-bg);border-color:var(--mb);color:var(--mb)}
   .react.on.no{background:var(--no-bg);border-color:var(--no);color:var(--no)}
-
   .voters{margin-top:11px;display:flex;flex-direction:column;gap:3px;font-size:12.5px}
-  .voters .vline{color:var(--muted)}
-  .voters .vline b{color:#3d4250;font-weight:700}
-  .voters .em{font-style:normal}
+  .voters .vline{color:var(--muted)} .voters .vline b{color:#3d4250;font-weight:700} .voters .em{font-style:normal}
 
-  /* empty */
-  .empty{text-align:center;padding:48px 20px;color:var(--muted)}
+  .section-label{display:flex;align-items:baseline;gap:10px;margin:4px 2px 12px}
+  .section-label h2{font-size:15px;font-weight:800;margin:0}
+  .section-label span{font-size:13px;color:var(--muted);font-weight:600}
+  .empty{text-align:center;padding:44px 20px;color:var(--muted)}
   .empty .big{font-size:40px;margin-bottom:10px}
   .empty p{margin:0;font-size:15px}
 
   footer{margin-top:34px;text-align:center;color:var(--muted-2);font-size:12.5px;line-height:1.7}
   footer b{color:var(--muted);font-weight:700}
 
-  /* ---------- name modal ---------- */
   .overlay{position:fixed;inset:0;background:rgba(15,18,34,.42);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
   .overlay.show{display:flex;animation:fade .2s ease}
   @keyframes fade{from{opacity:0}to{opacity:1}}
-  .modal{background:#fff;border-radius:20px;padding:26px 24px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(15,18,34,.25);animation:pop .25s ease}
-  .modal h2{margin:0 0 6px;font-size:22px;font-weight:900;letter-spacing:-.02em}
+  .modal{background:#fff;border-radius:20px;padding:26px 24px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(15,18,34,.25);animation:pop .25s ease}
+  .modal h2{margin:0 0 6px;font-size:22px;font-weight:900}
   .modal p{margin:0 0 16px;color:var(--muted);font-size:14px}
   .modal .row{display:flex;gap:9px;margin-top:14px}
 
-  /* toast */
-  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#0f1222;color:#fff;
-    padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s ease;z-index:60;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  /* roulette */
+  .roul{text-align:center}
+  .roul .label{font-size:13px;font-weight:700;color:var(--muted-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+  .roul .pick{font-size:26px;font-weight:900;letter-spacing:-.02em;min-height:66px;display:flex;align-items:center;justify-content:center;
+    padding:14px;background:var(--accent-soft);border-radius:14px;color:var(--accent);transition:transform .1s ease}
+  .roul.spin .pick{color:var(--text);opacity:.8}
+  .roul .pick .cb{margin-right:8px}
+  #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#0f1222;color:#fff;padding:11px 18px;border-radius:999px;
+    font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s ease;z-index:60;box-shadow:0 10px 30px rgba(0,0,0,.25)}
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
@@ -177,81 +180,96 @@
   <header class="top">
     <div class="brand">
       <h1>Во что играем? 🎮</h1>
-      <p>Кидай игру — друзья решают: <b style="color:var(--go)">Го</b>, <b style="color:var(--ok)">Можно</b>, <b style="color:var(--mb)">Мб</b> или <b style="color:var(--no)">Не</b>.</p>
+      <p>Кидай игру или фильм — друзья решают: <b style="color:var(--go)">Го</b>, <b style="color:var(--ok)">Можно</b>, <b style="color:var(--mb)">Мб</b> или <b style="color:var(--no)">Не</b>.</p>
     </div>
-    <div id="status" class="status" title="Статус синхронизации">
-      <span class="dot"></span><span id="statusText">Подключаюсь…</span>
-    </div>
+    <div id="status" class="status" title="Статус синхронизации"><span class="dot"></span><span id="statusText">Подключаюсь…</span></div>
   </header>
 
-  <!-- identity + room toggle -->
   <div class="panel bar">
     <span class="who-badge" id="whoBadge">?</span>
-    <span class="chip"><span class="k">Ты:</span>&nbsp;<b id="whoName">гость</b></span>
+    <span class="chip-i"><span class="k">Ты:</span>&nbsp;<b id="whoName">гость</b></span>
     <button class="linkbtn" id="editName">сменить имя</button>
     <span class="sep"></span>
-    <span class="chip"><span class="k">Комната:</span>&nbsp;<b id="roomName">общая</b></span>
+    <span class="chip-i"><span class="k">Комната:</span>&nbsp;<b id="roomName">общая</b></span>
     <span class="grow"></span>
     <button class="linkbtn" id="roomToggle">комнаты ⚙︎</button>
   </div>
 
-  <!-- room panel -->
   <div class="room panel" id="roomPanel">
     <h3>Комната для своей компании</h3>
-    <p class="hint">По умолчанию вы все в общей комнате — просто откройте одну ссылку. Хотите приватную доску только для своих — создайте новую и киньте друзьям код (или ссылку с этим кодом).</p>
+    <p class="hint">По умолчанию вы все в общей комнате — просто откройте одну ссылку. Хотите приватную доску только для своих — создайте новую и киньте друзьям код или ссылку.</p>
     <div class="row">
       <span class="code" id="roomCode">—</span>
       <button class="btn ghost sm" id="copyCode">Копировать код</button>
       <button class="btn ghost sm" id="copyLink">Копировать ссылку</button>
     </div>
     <div class="row">
-      <input type="text" id="joinInput" placeholder="Вставь код комнаты, чтобы присоединиться" />
+      <input type="text" id="joinInput" placeholder="Вставь код комнаты, чтобы войти" />
       <button class="btn sm" id="joinBtn">Войти</button>
     </div>
     <div class="row">
       <button class="btn ghost sm" id="newRoom">➕ Новая комната</button>
-      <button class="btn ghost sm" id="exportBtn">Экспорт списка</button>
+      <button class="btn ghost sm" id="exportBtn">Экспорт</button>
       <button class="btn ghost sm" id="importBtn">Импорт</button>
     </div>
   </div>
 
-  <!-- add form -->
-  <div class="add panel">
-    <div class="title-row">
-      <input type="text" id="gTitle" maxlength="80" placeholder="Название игры… (напр. Warzone)" />
-      <button class="btn add-btn" id="addBtn">Добавить</button>
-    </div>
-    <div class="meta-row">
-      <input type="text" id="gPlat" maxlength="24" placeholder="Платформа (необяз.): PC, PS5…" />
-      <input type="text" id="gNote" maxlength="120" placeholder="Коммент (необяз.): почему заходит" />
-    </div>
+  <div class="actions">
+    <button class="btn play" id="rouletteBtn">🎲 Что запускаем?</button>
+    <button class="btn idea" id="ideaBtn">💡 Идеи что добавить</button>
   </div>
 
+  <div class="recs panel" id="recsPanel">
+    <h3 id="recsTitle">Идеи</h3>
+    <p class="sub" id="recsSub"></p>
+    <div class="recgrid" id="recgrid"></div>
+  </div>
+
+  <div class="add panel">
+    <div class="seg" id="catSeg">
+      <button data-cat="game" class="on">🎮 Игра</button>
+      <button data-cat="movie">🎬 Фильм/сериал</button>
+    </div>
+    <div class="title-row">
+      <input type="text" id="gTitle" maxlength="90" placeholder="Название игры… (напр. Warzone)" />
+      <button class="btn add-btn" id="addBtn">Добавить</button>
+    </div>
+    <div class="plats" id="platRow"></div>
+    <div class="note-row"><input type="text" id="gNote" maxlength="120" placeholder="Коммент (необяз.): почему заходит" /></div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
   <div class="section-label">
-    <h2>Список желаний</h2>
+    <h2 id="listTitle">Список желаний</h2>
     <span id="countLbl"></span>
   </div>
 
   <div id="list"></div>
-  <div id="empty" class="empty" style="display:none">
-    <div class="big">🕹️</div>
-    <p>Пока пусто. Закинь первую игру сверху!</p>
-  </div>
+  <div id="empty" class="empty" style="display:none"><div class="big">🕹️</div><p id="emptyText">Пока пусто. Закинь что-нибудь сверху!</p></div>
 
   <footer>
     Голоса: <b>🔥 Го</b> +2 · <b>👍 Можно</b> +1 · <b>🤔 Мб</b> 0 · <b>👎 Не</b> −1. Список сам сортируется по хайпу.<br>
-    Один голос на игру — но передумать можно в любой момент. Данные общие для всех в комнате.
+    Один голос на позицию, передумать можно в любой момент. Данные общие для всех в комнате.
   </footer>
 </div>
 
-<!-- name modal -->
 <div class="overlay" id="nameOverlay">
   <div class="modal">
     <h2>Как тебя зовут? 👋</h2>
     <p>Имя увидят друзья рядом с твоими голосами. Можно сменить в любой момент.</p>
     <input type="text" id="nameInput" maxlength="24" placeholder="Твоё имя или ник" />
+    <div class="row"><button class="btn" id="nameSave" style="flex:1">Погнали 🎮</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="roulOverlay">
+  <div class="modal roul">
+    <div class="label" id="roulLabel">Крутим барабан…</div>
+    <div class="pick" id="roulPick">🎲</div>
     <div class="row">
-      <button class="btn" id="nameSave" style="flex:1">Погнали 🎮</button>
+      <button class="btn ghost" id="roulAgain" style="flex:1">🎲 Ещё раз</button>
+      <button class="btn" id="roulClose" style="flex:1">Ок</button>
     </div>
   </div>
 </div>
@@ -262,76 +280,108 @@
 (function(){
   "use strict";
 
-  // ---------- конфиг ----------
-  var API = "https://jsonblob.com/api/jsonBlob/";
-  var DEFAULT_ROOM = "019f91e5-a9bc-7350-bb25-e8b85bd65b78"; // общая комната с примерами
-  var POLL_MS = 5000;
-  var PUSH_DEBOUNCE = 550;
+  var API="https://jsonblob.com/api/jsonBlob/";
+  var DEFAULT_ROOM="019f91e5-a9bc-7350-bb25-e8b85bd65b78";
+  var POLL_MS=5000, PUSH_DEBOUNCE=550;
 
-  var REACTS = [
-    {k:"go", label:"Го",    emo:"🔥", w:2},
-    {k:"ok", label:"Можно", emo:"👍", w:1},
-    {k:"mb", label:"Мб",    emo:"🤔", w:0},
-    {k:"no", label:"Не",    emo:"👎", w:-1}
+  var REACTS=[{k:"go",label:"Го",emo:"🔥"},{k:"ok",label:"Можно",emo:"👍"},{k:"mb",label:"Мб",emo:"🤔"},{k:"no",label:"Не",emo:"👎"}];
+  var W={go:2,ok:1,mb:0,no:-1};
+  var CATS={game:{label:"Игры",emoji:"🎮",one:"игру"},movie:{label:"Фильмы и сериалы",emoji:"🎬",one:"фильм/сериал"}};
+  var PLATFORMS=["PC","PS","Xbox","Switch","Моб","VR"];
+
+  // Встроенный каталог популярных игр (для рекомендаций и быстрого добавления). tags — жанр/режим.
+  var CATALOG=[
+    {title:"Counter-Strike 2",p:["PC"],t:["шутер","тактика","соревновательный","командный"]},
+    {title:"Dota 2",p:["PC"],t:["моба","командный","соревновательный"]},
+    {title:"Valorant",p:["PC"],t:["шутер","тактика","соревновательный","командный"]},
+    {title:"League of Legends",p:["PC"],t:["моба","командный","соревновательный"]},
+    {title:"Minecraft",p:["PC","Моб","PS","Xbox","Switch"],t:["песочница","крафт","кооп","выживание"]},
+    {title:"Among Us",p:["PC","Моб"],t:["пати","казуалка","дедукция"]},
+    {title:"GTA Online",p:["PC","PS","Xbox"],t:["экшен","открытый мир","кооп"]},
+    {title:"Lethal Company",p:["PC"],t:["хоррор","кооп","выживание"]},
+    {title:"Phasmophobia",p:["PC","VR"],t:["хоррор","кооп"]},
+    {title:"Fortnite",p:["PC","PS","Xbox","Switch","Моб"],t:["батл-рояль","шутер","кооп"]},
+    {title:"Apex Legends",p:["PC","PS","Xbox"],t:["батл-рояль","шутер","командный"]},
+    {title:"PUBG",p:["PC","PS","Xbox"],t:["батл-рояль","шутер"]},
+    {title:"Fall Guys",p:["PC","PS","Xbox","Switch"],t:["пати","казуалка"]},
+    {title:"Rust",p:["PC"],t:["выживание","песочница","pvp"]},
+    {title:"Terraria",p:["PC","Моб","PS","Xbox","Switch"],t:["песочница","крафт","кооп"]},
+    {title:"Rocket League",p:["PC","PS","Xbox","Switch"],t:["спорт","командный","казуалка"]},
+    {title:"Overwatch 2",p:["PC","PS","Xbox","Switch"],t:["шутер","командный","соревновательный"]},
+    {title:"Call of Duty: Warzone",p:["PC","PS","Xbox"],t:["батл-рояль","шутер"]},
+    {title:"Dead by Daylight",p:["PC","PS","Xbox"],t:["хоррор","командный","асимметрия"]},
+    {title:"Valheim",p:["PC"],t:["выживание","кооп","крафт"]},
+    {title:"It Takes Two",p:["PC","PS","Xbox"],t:["кооп","приключение","2 игрока"]},
+    {title:"Stardew Valley",p:["PC","Моб","PS","Xbox","Switch"],t:["ферма","кооп","казуалка"]},
+    {title:"Baldur's Gate 3",p:["PC","PS"],t:["рпг","кооп","приключение"]},
+    {title:"Elden Ring",p:["PC","PS","Xbox"],t:["рпг","соулс","кооп"]},
+    {title:"Palworld",p:["PC","Xbox"],t:["выживание","крафт","кооп"]},
+    {title:"The Finals",p:["PC","PS","Xbox"],t:["шутер","командный"]},
+    {title:"Left 4 Dead 2",p:["PC"],t:["хоррор","кооп","шутер"]},
+    {title:"Deep Rock Galactic",p:["PC","PS","Xbox"],t:["кооп","шутер","выживание"]},
+    {title:"Sea of Thieves",p:["PC","PS","Xbox"],t:["приключение","кооп","открытый мир"]},
+    {title:"Mortal Kombat 1",p:["PC","PS","Xbox","Switch"],t:["файтинг","соревновательный"]},
+    {title:"Tekken 8",p:["PC","PS","Xbox"],t:["файтинг","соревновательный"]},
+    {title:"EA Sports FC 24",p:["PC","PS","Xbox","Switch"],t:["спорт","футбол"]},
+    {title:"Forza Horizon 5",p:["PC","Xbox"],t:["гонки","открытый мир"]},
+    {title:"Mario Kart 8 Deluxe",p:["Switch"],t:["гонки","пати","казуалка"]},
+    {title:"Gang Beasts",p:["PC","PS","Xbox"],t:["пати","казуалка","файтинг"]},
+    {title:"Human: Fall Flat",p:["PC","PS","Xbox","Switch","Моб"],t:["пати","кооп","головоломка"]},
+    {title:"Warframe",p:["PC","PS","Xbox","Switch"],t:["шутер","кооп","ммо"]},
+    {title:"Destiny 2",p:["PC","PS","Xbox"],t:["шутер","кооп","ммо"]},
+    {title:"Genshin Impact",p:["PC","Моб","PS"],t:["рпг","открытый мир","гача"]},
+    {title:"Brawl Stars",p:["Моб"],t:["казуалка","командный","пати"]},
+    {title:"Standoff 2",p:["Моб"],t:["шутер","тактика"]},
+    {title:"World of Tanks",p:["PC"],t:["танки","командный","pvp"]}
   ];
-  var W = {go:2, ok:1, mb:0, no:-1};
+  var CAT_INDEX={};
+  function normTitle(s){ return String(s||"").toLowerCase().replace(/[^a-zа-я0-9 ]/gi,"").replace(/\s+/g," ").trim(); }
+  CATALOG.forEach(function(c,i){ c.pop=i; CAT_INDEX[normTitle(c.title)]=c; });
 
-  // ---------- состояние ----------
-  var me = { id:null, name:null };
-  var room = DEFAULT_ROOM;
-  var state = { v:1, games:[], updatedAt:0 };
-  var syncMode = "connecting";   // connecting | online | local
-  var localVer = 0;              // растёт при каждой локальной правке
-  var syncedVer = 0;             // до какой версии успешно синхронизировано с сервером
-  var syncing = false;           // идёт ли сейчас обмен с сервером
-  var failCount = 0;             // сколько обращений подряд не удалось
-  var soonTimer = null;          // таймер быстрой доотправки после правки
-  var pollTimer = null;          // интервал фонового опроса
+  var me={id:null,name:null};
+  var room=DEFAULT_ROOM;
+  var state={v:1,games:[],updatedAt:0};
+  var syncMode="connecting", localVer=0, syncedVer=0, syncing=false, failCount=0, soonTimer=null, pollTimer=null;
+  var activeCat="all";      // фильтр: all | game | movie
+  var addCat="game";        // категория в форме добавления
+  var addPlats={};          // выбранные платформы-чипы в форме
+  var recOpen=false, roomOpen=false;
 
-  // ---------- утилиты ----------
-  function $(id){ return document.getElementById(id); }
-  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
-  function now(){ return Date.now(); }
-  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){
-    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
-  function isLocalRoom(r){ return /^local-/.test(r); }
-
+  function $(id){return document.getElementById(id);}
+  function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
+  function now(){return Date.now();}
+  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  function isLocalRoom(r){return /^local-/.test(r);}
   var toastT=null;
-  function toast(msg){
-    var t=$("toast"); t.textContent=msg; t.classList.add("show");
-    clearTimeout(toastT); toastT=setTimeout(function(){ t.classList.remove("show"); }, 2200);
-  }
+  function toast(m){var t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("show");},2200);}
+  function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function stateKey(){return "vig_state_"+room;}
+  function saveLocal(){lsSet(stateKey(),JSON.stringify(state));}
+  function loadLocal(r){var raw=lsGet("vig_state_"+r);if(!raw)return null;try{return normalize(JSON.parse(raw));}catch(e){return null;}}
 
-  // ---------- localStorage ----------
-  function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
-  function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
-  function stateKey(){ return "vig_state_" + room; }
-  function saveLocal(){ lsSet(stateKey(), JSON.stringify(state)); }
-  function loadLocal(r){
-    var raw = lsGet("vig_state_" + r);
-    if(!raw) return null;
-    try{ return normalize(JSON.parse(raw)); }catch(e){ return null; }
+  var LEGACY_PLAT={"pc":"PC","моб":"Моб","mobile":"Моб","консоль":"PS","ps":"PS","ps5":"PS","xbox":"Xbox","switch":"Switch","vr":"VR"};
+  function mapPlats(str){
+    var out=[]; String(str).split(/[\/,]/).forEach(function(x){
+      var k=x.trim().toLowerCase(); if(!k) return;
+      var m=LEGACY_PLAT[k]||(x.trim()); if(out.indexOf(m)<0) out.push(m);
+    }); return out;
   }
-
-  // ---------- нормализация / слияние ----------
   function normalize(s){
-    if(!s || typeof s!=="object") s={};
-    var games = Array.isArray(s.games) ? s.games : [];
-    var out = [];
+    if(!s||typeof s!=="object")s={};
+    var games=Array.isArray(s.games)?s.games:[], out=[];
     for(var i=0;i<games.length;i++){
-      var g=games[i]; if(!g||!g.id) continue;
+      var g=games[i]; if(!g||!g.id)continue;
       var votes={};
-      if(g.votes && typeof g.votes==="object"){
-        for(var pid in g.votes){
-          var v=g.votes[pid];
-          if(v && typeof v==="object"){ votes[pid]={ r:(v.r||null), t:(+v.t||0), name:(v.name||"кто-то") }; }
-          else if(typeof v==="string"){ votes[pid]={ r:v, t:0, name:"кто-то" }; }
-        }
-      }
+      if(g.votes&&typeof g.votes==="object"){for(var pid in g.votes){var v=g.votes[pid];
+        if(v&&typeof v==="object")votes[pid]={r:(v.r||null),t:(+v.t||0),name:(v.name||"кто-то")};
+        else if(typeof v==="string")votes[pid]={r:v,t:0,name:"кто-то"};}}
+      var plats=Array.isArray(g.platforms)?g.platforms.slice():(g.platform?mapPlats(g.platform):[]);
       out.push({
         id:String(g.id),
+        type:(g.type==="movie"?"movie":"game"),
         title:String(g.title||"Без названия"),
-        platform:(g.platform?String(g.platform):""),
+        platforms:plats,
         note:(g.note?String(g.note):""),
         addedBy:(g.addedBy?String(g.addedBy):""),
         addedById:(g.addedById?String(g.addedById):""),
@@ -341,432 +391,284 @@
         votes:votes
       });
     }
-    return { v:1, games:out, updatedAt:(+s.updatedAt||0) };
+    return {v:1,games:out,updatedAt:(+s.updatedAt||0)};
   }
-
   function mergeGame(a,b){
-    var base = (b.editedAt||0) > (a.editedAt||0) ? b : a;
-    var votes={}, pid;
-    for(pid in a.votes) votes[pid]=a.votes[pid];
-    for(pid in b.votes){
-      if(!votes[pid] || (b.votes[pid].t||0) >= (votes[pid].t||0)) votes[pid]=b.votes[pid];
-    }
-    return {
-      id:a.id,
-      title:base.title, platform:base.platform, note:base.note,
-      addedBy:base.addedBy||a.addedBy||b.addedBy||"",
-      addedById:base.addedById||a.addedById||b.addedById||"",
-      createdAt:Math.min(a.createdAt||now(), b.createdAt||now()),
-      editedAt:Math.max(a.editedAt||0, b.editedAt||0),
-      removed: !!(a.removed || b.removed),
-      votes:votes
-    };
+    var base=(b.editedAt||0)>(a.editedAt||0)?b:a, votes={},pid;
+    for(pid in a.votes)votes[pid]=a.votes[pid];
+    for(pid in b.votes){if(!votes[pid]||(b.votes[pid].t||0)>=(votes[pid].t||0))votes[pid]=b.votes[pid];}
+    return {id:a.id,type:base.type||a.type||"game",title:base.title,platforms:(base.platforms&&base.platforms.length?base.platforms:(a.platforms||b.platforms||[])),
+      note:base.note,addedBy:base.addedBy||a.addedBy||b.addedBy||"",addedById:base.addedById||a.addedById||b.addedById||"",
+      createdAt:Math.min(a.createdAt||now(),b.createdAt||now()),editedAt:Math.max(a.editedAt||0,b.editedAt||0),
+      removed:!!(a.removed||b.removed),votes:votes};
   }
   function mergeState(a,b){
-    a=normalize(a); b=normalize(b);
-    var map={}, i, g;
-    for(i=0;i<a.games.length;i++){ map[a.games[i].id]=a.games[i]; }
-    for(i=0;i<b.games.length;i++){ g=b.games[i]; map[g.id]= map[g.id]? mergeGame(map[g.id],g) : g; }
-    var games=[]; for(var id in map) games.push(map[id]);
-    return { v:1, games:games, updatedAt:Math.max(a.updatedAt||0,b.updatedAt||0) };
+    a=normalize(a);b=normalize(b);var map={},i,g;
+    for(i=0;i<a.games.length;i++)map[a.games[i].id]=a.games[i];
+    for(i=0;i<b.games.length;i++){g=b.games[i];map[g.id]=map[g.id]?mergeGame(map[g.id],g):g;}
+    var games=[];for(var id in map)games.push(map[id]);
+    return {v:1,games:games,updatedAt:Math.max(a.updatedAt||0,b.updatedAt||0)};
   }
 
-  // ---------- вычисления ----------
-  function counts(g){
-    var c={go:0,ok:0,mb:0,no:0}, score=0;
-    for(var pid in g.votes){
-      var r=g.votes[pid].r;
-      if(r && c.hasOwnProperty(r)){ c[r]++; score += W[r]; }
-    }
-    c.score=score; return c;
+  function counts(g){var c={go:0,ok:0,mb:0,no:0},s=0;for(var pid in g.votes){var r=g.votes[pid].r;if(r&&c.hasOwnProperty(r)){c[r]++;s+=W[r];}}c.score=s;return c;}
+  function votersByReact(g){var m={go:[],ok:[],mb:[],no:[]};for(var pid in g.votes){var v=g.votes[pid];if(v.r&&m[v.r])m[v.r].push(v.name||"кто-то");}return m;}
+  function activeItems(){return state.games.filter(function(g){return !g.removed;});}
+  function filtered(){var arr=activeItems().filter(function(g){return activeCat==="all"||g.type===activeCat;});
+    arr.sort(function(a,b){var ca=counts(a),cb=counts(b);if(cb.score!==ca.score)return cb.score-ca.score;if(cb.go!==ca.go)return cb.go-ca.go;return (a.createdAt||0)-(b.createdAt||0);});return arr;}
+
+  // ---------- рекомендации ----------
+  function groupPrefTags(){
+    var w={};
+    activeItems().forEach(function(g){
+      if(g.type!=="game")return; var c=counts(g); if(c.score<=0)return;
+      var cat=CAT_INDEX[normTitle(g.title)]; if(!cat)return;
+      cat.t.forEach(function(tag){w[tag]=(w[tag]||0)+c.score;});
+    }); return w;
   }
-  function votersByReact(g){
-    var m={go:[],ok:[],mb:[],no:[]};
-    for(var pid in g.votes){
-      var v=g.votes[pid];
-      if(v.r && m[v.r]) m[v.r].push(v.name||"кто-то");
-    }
-    return m;
-  }
-  function visibleSorted(){
-    var arr=state.games.filter(function(g){ return !g.removed; });
-    arr.sort(function(a,b){
-      var ca=counts(a), cb=counts(b);
-      if(cb.score!==ca.score) return cb.score-ca.score;
-      if(cb.go!==ca.go) return cb.go-ca.go;
-      return (a.createdAt||0)-(b.createdAt||0);
+  function getRecommendations(n){
+    var present={}; activeItems().forEach(function(g){present[normTitle(g.title)]=1;});
+    var prefs=groupPrefTags(), hasPrefs=false; for(var k in prefs){hasPrefs=true;break;}
+    var scored=CATALOG.filter(function(c){return !present[normTitle(c.title)];}).map(function(c){
+      var s=0; c.t.forEach(function(tag){s+=(prefs[tag]||0);}); return {c:c,s:s};
     });
-    return arr;
+    scored.sort(function(x,y){ if(y.s!==x.s)return y.s-x.s; return x.c.pop-y.c.pop; });
+    var personalized=hasPrefs && scored.length && scored[0].s>0;
+    return {items:scored.slice(0,n).map(function(o){return o.c;}), personalized:personalized};
+  }
+  function renderRecs(){
+    var r=getRecommendations(8);
+    $("recsTitle").textContent = r.personalized ? "Похоже на то, что вам заходит" : "Популярное — быстро добавить";
+    $("recsSub").textContent = r.personalized ? "Подобрано по тому, за что вы уже голосуете 🔥👍" : "Тыкни ➕ чтобы закинуть в список";
+    var g=$("recgrid"), html="";
+    if(!r.items.length){ html='<div style="color:var(--muted);font-size:13px;grid-column:1/-1">Всё популярное уже в списке 🎉</div>'; }
+    r.items.forEach(function(c){
+      html+='<div class="rec"><div class="rc-info"><div class="rc-title">'+esc(c.title)+'</div><div class="rc-tags">'+esc(c.t.slice(0,3).join(" · "))+'</div></div>'+
+        '<button class="rc-add" title="Добавить" data-rec="'+esc(c.title)+'">＋</button></div>';
+    });
+    g.innerHTML=html;
+  }
+  function addFromCatalog(title){
+    var c=CAT_INDEX[normTitle(title)]; if(!c)return;
+    if(!ensureName(function(){addFromCatalog(title);}))return;
+    var present=activeItems().some(function(g){return normTitle(g.title)===normTitle(title);});
+    if(present){toast("«"+c.title+"» уже в списке");return;}
+    var item={id:uid(),type:"game",title:c.title,platforms:c.p.slice(),note:"",addedBy:me.name,addedById:me.id,createdAt:now(),editedAt:now(),removed:false,votes:{}};
+    item.votes[me.id]={r:"go",t:now(),name:me.name};
+    state.games.push(item); toast("Добавлено: "+c.title); bumpLocal(); renderRecs();
   }
 
-  // ---------- сеть ----------
+  // ---------- рулетка ----------
+  var roulTimer=null;
+  function openRoulette(){
+    var pool=filtered();
+    if(!pool.length){toast("Список пуст — сначала добавь что-нибудь");return;}
+    var good=pool.filter(function(g){return counts(g).score>=0;}); if(good.length)pool=good;
+    $("roulLabel").textContent="Крутим барабан…";
+    $("roulOverlay").classList.add("show");
+    var box=$("roulOverlay").querySelector(".roul"); box.classList.add("spin");
+    var pickEl=$("roulPick");
+    var delay=60, elapsed=0, total=1900;
+    clearTimeout(roulTimer);
+    function tick(){
+      var r=pool[Math.floor(Math.random()*pool.length)];
+      pickEl.innerHTML='<span class="cb">'+(r.type==="movie"?"🎬":"🎮")+'</span>'+esc(r.title);
+      elapsed+=delay;
+      if(elapsed>=total){
+        var fin=pool[Math.floor(Math.random()*pool.length)];
+        pickEl.innerHTML='<span class="cb">'+(fin.type==="movie"?"🎬":"🎮")+'</span>'+esc(fin.title);
+        box.classList.remove("spin");
+        $("roulLabel").textContent="Погнали в это! 🎉";
+        return;
+      }
+      if(elapsed>total*0.6)delay+=22; // замедление
+      roulTimer=setTimeout(tick,delay);
+    }
+    tick();
+  }
+
   function setStatus(mode){
-    if(mode===syncMode && mode!=="connecting") { /* still refresh text below */ }
-    syncMode=mode;
-    var el=$("status"), txt=$("statusText");
-    el.classList.remove("online","local");
-    if(mode==="online"){ el.classList.add("online"); txt.textContent="Синхронизация онлайн"; }
-    else if(mode==="local"){ el.classList.add("local"); txt.textContent="Локальный режим"; el.title="Не удаётся достучаться до общего хранилища — работает офлайн на этом устройстве. Пробую снова…"; }
-    else { txt.textContent="Подключаюсь…"; }
+    syncMode=mode;var el=$("status"),t=$("statusText");el.classList.remove("online","local");
+    if(mode==="online"){el.classList.add("online");t.textContent="Синхронизация онлайн";}
+    else if(mode==="local"){el.classList.add("local");t.textContent="Локальный режим";el.title="Не достучаться до общего хранилища — работает офлайн на этом устройстве. Пробую снова…";}
+    else t.textContent="Подключаюсь…";
   }
+  function apiGet(){return fetch(API+room,{headers:{"Accept":"application/json"},cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json();});}
+  function apiPut(b){return fetch(API+room,{method:"PUT",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(b)}).then(function(r){if(!r.ok)throw 0;return 1;});}
+  function apiCreate(init){return fetch(API,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(init)}).then(function(r){if(!r.ok)throw 0;var id=r.headers.get("X-jsonblob-id");if(!id){var l=r.headers.get("Location")||"";id=l.split("/").pop();}if(!id)throw 0;return id;});}
 
-  function apiGet(){
-    return fetch(API+room, { headers:{ "Accept":"application/json" }, cache:"no-store" })
-      .then(function(r){ if(!r.ok) throw new Error("get "+r.status); return r.json(); });
-  }
-  function apiPut(body){
-    return fetch(API+room, { method:"PUT",
-      headers:{ "Content-Type":"application/json", "Accept":"application/json" },
-      body: JSON.stringify(body) })
-      .then(function(r){ if(!r.ok) throw new Error("put "+r.status); return true; });
-  }
-  function apiCreate(initState){
-    return fetch(API, { method:"POST",
-      headers:{ "Content-Type":"application/json", "Accept":"application/json" },
-      body: JSON.stringify(initState) })
-      .then(function(r){
-        if(!r.ok) throw new Error("post "+r.status);
-        var id = r.headers.get("X-jsonblob-id");
-        if(!id){ var loc=r.headers.get("Location")||""; id = loc.split("/").pop(); }
-        if(!id) throw new Error("no id");
-        return id;
-      });
-  }
-
-  // Любая локальная правка: поднимаем версию, сохраняем, перерисовываем и скоро синхронизируем
-  function bumpLocal(){
-    localVer++;
-    saveLocal(); render();
-    scheduleSoon();
-  }
-  function scheduleSoon(){
-    clearTimeout(soonTimer);
-    soonTimer=setTimeout(function(){ syncTick(); }, PUSH_DEBOUNCE);
-  }
-
-  // Единый цикл обмена: GET → слить с локальным → если есть свои правки, записать PUT.
-  // Версия правок (localVer/syncedVer) гарантирует, что ничего не потеряется и не затрётся чужое.
+  function bumpLocal(){localVer++;saveLocal();render();scheduleSoon();}
+  function scheduleSoon(){clearTimeout(soonTimer);soonTimer=setTimeout(function(){syncTick();},PUSH_DEBOUNCE);}
   function syncTick(){
-    if(isLocalRoom(room)){ syncedVer=localVer; setStatus("local"); return Promise.resolve(); }
-    if(syncing) return Promise.resolve();
+    if(isLocalRoom(room)){syncedVer=localVer;setStatus("local");return Promise.resolve();}
+    if(syncing)return Promise.resolve();
     syncing=true;
     return apiGet().then(function(server){
-      var before=JSON.stringify(state);
-      state=mergeState(state, server);
-      if(JSON.stringify(state)!==before){ saveLocal(); render(); }
+      var before=JSON.stringify(state);state=mergeState(state,server);
+      if(JSON.stringify(state)!==before){saveLocal();render();}
     }).then(function(){
-      if(localVer!==syncedVer){
-        var verNow=localVer;              // фиксируем версию, которую сейчас заливаем
-        state.updatedAt=now();
-        return apiPut(state).then(function(){ syncedVer=verNow; saveLocal(); render(); });
-      }
-    }).then(function(){
-      failCount=0; setStatus("online");
-    }).catch(function(){
-      failCount++; if(failCount>=2) setStatus("local"); // разовый сбой не паникуем
-    }).then(function(){
-      syncing=false;
-    });
+      if(localVer!==syncedVer){var v=localVer;state.updatedAt=now();return apiPut(state).then(function(){syncedVer=v;saveLocal();render();});}
+    }).then(function(){failCount=0;setStatus("online");})
+      .catch(function(){failCount++;if(failCount>=2)setStatus("local");})
+      .then(function(){syncing=false;});
   }
+  function startPolling(){clearInterval(pollTimer);pollTimer=setInterval(function(){syncTick();},POLL_MS);}
 
-  function startPolling(){
-    clearInterval(pollTimer);
-    pollTimer=setInterval(function(){ syncTick(); }, POLL_MS);
-  }
+  function ensureName(cb){ if(me.name){return true;} openNameModal(cb); return false; }
 
-  // ---------- действия ----------
-  function ensureName(cb){
-    // Имя уже есть — просто разрешаем действие; вызывающий сам продолжит.
-    // ВАЖНО: не дёргаем cb здесь, иначе vote/addGame вызовут сами себя → бесконечная рекурсия.
-    if(me.name){ return true; }
-    // Имени нет — открываем модалку и запоминаем действие, чтобы доиграть его после ввода имени.
-    openNameModal(cb);
-    return false;
-  }
-
-  function addGame(){
-    var t=$("gTitle").value.trim();
-    if(!t){ $("gTitle").focus(); return; }
-    if(!ensureName(function(){ addGame(); })) { return; }
-    var g={
-      id:uid(), title:t.slice(0,80),
-      platform:$("gPlat").value.trim().slice(0,24),
+  function addItem(){
+    var t=$("gTitle").value.trim(); if(!t){$("gTitle").focus();return;}
+    if(!ensureName(function(){addItem();}))return;
+    var item={id:uid(),type:addCat,title:t.slice(0,90),
+      platforms:(addCat==="game"?Object.keys(addPlats):[]),
       note:$("gNote").value.trim().slice(0,120),
-      addedBy:me.name, addedById:me.id,
-      createdAt:now(), editedAt:now(), removed:false,
-      votes:{}
-    };
-    // автору сразу ставим "Го"
-    g.votes[me.id]={ r:"go", t:now(), name:me.name };
-    state.games.push(g);
-    $("gTitle").value=""; $("gPlat").value=""; $("gNote").value="";
-    toast("Добавлено: "+g.title);
-    bumpLocal();
+      addedBy:me.name,addedById:me.id,createdAt:now(),editedAt:now(),removed:false,votes:{}};
+    item.votes[me.id]={r:"go",t:now(),name:me.name};
+    state.games.push(item);
+    $("gTitle").value="";$("gNote").value="";addPlats={};renderPlatRow();
+    toast("Добавлено: "+item.title);
+    bumpLocal(); renderRecs();
   }
-
-  function vote(gid, rk){
-    if(!ensureName(function(){ vote(gid,rk); })) return;
-    var g=findGame(gid); if(!g) return;
-    var cur = g.votes[me.id] && g.votes[me.id].r;
-    var next = (cur===rk) ? null : rk;  // повторный клик — снять голос
-    g.votes[me.id]={ r:next, t:now(), name:me.name };
-    g.editedAt=now();
-    bumpLocal();
+  function vote(gid,rk){
+    if(!ensureName(function(){vote(gid,rk);}))return;
+    var g=findItem(gid);if(!g)return;
+    var cur=g.votes[me.id]&&g.votes[me.id].r;
+    g.votes[me.id]={r:(cur===rk?null:rk),t:now(),name:me.name};g.editedAt=now();
+    bumpLocal(); renderRecs();
   }
-
-  function delGame(gid){
-    var g=findGame(gid); if(!g) return;
-    var canDel = !g.addedById || g.addedById===me.id;
-    if(!canDel){ toast("Удалить может только тот, кто добавил"); return; }
-    if(!confirm("Убрать «"+g.title+"» из списка?")) return;
-    g.removed=true; g.editedAt=now();
-    bumpLocal();
+  function delItem(gid){
+    var g=findItem(gid);if(!g)return;
+    if(!(!g.addedById||g.addedById===me.id)){toast("Удалить может только тот, кто добавил");return;}
+    if(!confirm("Убрать «"+g.title+"» из списка?"))return;
+    g.removed=true;g.editedAt=now();bumpLocal();renderRecs();
   }
+  function findItem(gid){for(var i=0;i<state.games.length;i++)if(state.games[i].id===gid)return state.games[i];return null;}
 
-  function findGame(gid){
-    for(var i=0;i<state.games.length;i++) if(state.games[i].id===gid) return state.games[i];
-    return null;
-  }
-
-  // ---------- имя ----------
   var nameCb=null;
-  function openNameModal(cb){
-    nameCb=cb||null;
-    $("nameInput").value = me.name||"";
-    $("nameOverlay").classList.add("show");
-    setTimeout(function(){ $("nameInput").focus(); }, 60);
-  }
+  function openNameModal(cb){nameCb=cb||null;$("nameInput").value=me.name||"";$("nameOverlay").classList.add("show");setTimeout(function(){$("nameInput").focus();},60);}
   function saveName(){
-    var n=$("nameInput").value.trim().slice(0,24);
-    if(!n){ $("nameInput").focus(); return; }
-    me.name=n;
-    if(!me.id){ me.id=lsGet("vig_id")||uid(); }
-    lsSet("vig_id", me.id);
-    lsSet("vig_name", me.name);
-    // обновим имя в своих уже отданных голосах
+    var n=$("nameInput").value.trim().slice(0,24);if(!n){$("nameInput").focus();return;}
+    me.name=n;if(!me.id){me.id=lsGet("vig_id")||uid();}lsSet("vig_id",me.id);lsSet("vig_name",me.name);
     var changed=false;
-    for(var i=0;i<state.games.length;i++){
-      var g=state.games[i];
-      if(g.votes[me.id]){ g.votes[me.id].name=me.name; g.editedAt=now(); changed=true; }
-    }
-    $("nameOverlay").classList.remove("show");
-    renderIdentity();
-    if(changed){ bumpLocal(); } else { render(); }
-    var cb=nameCb; nameCb=null; if(cb) cb();
+    for(var i=0;i<state.games.length;i++){var g=state.games[i];if(g.votes[me.id]){g.votes[me.id].name=me.name;g.editedAt=now();changed=true;}}
+    $("nameOverlay").classList.remove("show");renderIdentity();
+    if(changed)bumpLocal();else render();
+    var cb=nameCb;nameCb=null;if(cb)cb();
   }
 
-  // ---------- комнаты ----------
-  function shortRoom(r){
-    if(r===DEFAULT_ROOM) return "общая";
-    if(isLocalRoom(r)) return "локальная";
-    return r.slice(0,8)+"…";
+  function shortRoom(r){if(r===DEFAULT_ROOM)return "общая";if(isLocalRoom(r))return "локальная";return r.slice(0,8)+"…";}
+  function updateHash(){try{if(room&&room!==DEFAULT_ROOM)history.replaceState(null,"","#room="+room);else history.replaceState(null,"",location.pathname+location.search);}catch(e){}}
+  function switchRoom(nr,seed){room=nr;lsSet("vig_room",room);updateHash();var local=loadLocal(room);
+    state=local||normalize(seed||{v:1,games:[],updatedAt:0});localVer=0;syncedVer=0;failCount=0;syncing=false;
+    renderIdentity();render();renderRecs();setStatus(isLocalRoom(room)?"local":"connecting");syncTick();}
+  function newRoom(){var init={v:1,games:[],updatedAt:now()};setStatus("connecting");
+    apiCreate(init).then(function(id){switchRoom(id,init);toast("Комната создана — кинь код друзьям");openRoomPanel(true);})
+      .catch(function(){switchRoom("local-"+uid(),init);toast("Онлайн-комната недоступна, создана локальная");});}
+  function joinRoom(code){code=(code||"").trim();var m=code.match(/room=([\w-]+)/);if(m)code=m[1];code=code.replace(/[^\w-]/g,"");
+    if(!code){toast("Вставь код комнаты");return;}if(code===room){toast("Ты уже тут");return;}switchRoom(code,null);toast("Заходим в "+shortRoom(code));}
+  function copyText(txt,ok){function fb(){try{var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");document.body.removeChild(ta);toast(ok||"Скопировано");}catch(e){window.prompt("Скопируй вручную:",txt);}}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(function(){toast(ok||"Скопировано");},fb);else fb();}
+  function exportList(){var lines=filtered().map(function(g){var c=counts(g);return "• "+g.title+(g.platforms.length?" ["+g.platforms.join("/")+"]":"")+"  (🔥"+c.go+" 👍"+c.ok+" 🤔"+c.mb+" 👎"+c.no+")";});
+    copyText("Во что играем — "+shortRoom(room)+"\n"+lines.join("\n")+"\n\n[data]"+JSON.stringify(state),"Список скопирован");}
+  function importList(){var raw=window.prompt("Вставь данные из «Экспорт» другого устройства:","");if(!raw)return;var m=raw.match(/\[data\](\{[\s\S]*\})\s*$/);var j=m?m[1]:raw;
+    try{state=mergeState(state,normalize(JSON.parse(j)));toast("Импортировано");bumpLocal();renderRecs();}catch(e){toast("Не смог разобрать данные");}}
+  function openRoomPanel(o){roomOpen=o==null?!roomOpen:o;$("roomPanel").classList.toggle("open",roomOpen);if(roomOpen)$("roomCode").textContent=isLocalRoom(room)?"локальная комната (без синка)":room;}
+
+  // ---------- форма: категория + платформы ----------
+  function setAddCat(cat){
+    addCat=cat;
+    var seg=$("catSeg").children; for(var i=0;i<seg.length;i++)seg[i].classList.toggle("on",seg[i].getAttribute("data-cat")===cat);
+    $("platRow").classList.toggle("hidden",cat!=="game");
+    $("gTitle").setAttribute("placeholder",cat==="game"?"Название игры… (напр. Warzone)":"Название фильма или сериала…");
+    $("gNote").setAttribute("placeholder",cat==="game"?"Коммент (необяз.): почему заходит":"Коммент (необяз.): где смотреть / почему");
   }
-  function updateHash(){
-    try{ if(room && room!==DEFAULT_ROOM){ history.replaceState(null,"", "#room="+room); } else { history.replaceState(null,"", location.pathname+location.search); } }catch(e){}
-  }
-  function switchRoom(newRoom, seedState){
-    room=newRoom;
-    lsSet("vig_room", room);
-    updateHash();
-    var local=loadLocal(room);
-    state = local || normalize(seedState||{v:1,games:[],updatedAt:0});
-    localVer=0; syncedVer=0; failCount=0; syncing=false;
-    renderIdentity(); render();
-    setStatus(isLocalRoom(room)?"local":"connecting");
-    syncTick();
-  }
-  function newRoom(){
-    var init={ v:1, games:[], updatedAt:now() };
-    setStatus("connecting");
-    apiCreate(init).then(function(id){
-      switchRoom(id, init);
-      toast("Комната создана — кинь код друзьям");
-      openRoomPanel(true);
-    }).catch(function(){
-      var id="local-"+uid();
-      switchRoom(id, init);
-      toast("Онлайн-комната недоступна, создана локальная");
-    });
-  }
-  function joinRoom(code){
-    code=(code||"").trim();
-    var m=code.match(/room=([\w-]+)/); if(m) code=m[1];
-    code=code.replace(/[^\w-]/g,"");
-    if(!code){ toast("Вставь код комнаты"); return; }
-    if(code===room){ toast("Ты уже тут"); return; }
-    switchRoom(code, null);
-    toast("Заходим в комнату "+shortRoom(code));
+  function renderPlatRow(){
+    var html=""; PLATFORMS.forEach(function(p){html+='<button class="pchip'+(addPlats[p]?" on":"")+'" data-plat="'+esc(p)+'">'+esc(p)+'</button>';});
+    $("platRow").innerHTML=html;
   }
 
-  function copyText(txt, okMsg){
-    function fallback(){
-      try{
-        var ta=document.createElement("textarea"); ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0";
-        document.body.appendChild(ta); ta.focus(); ta.select();
-        document.execCommand("copy"); document.body.removeChild(ta); toast(okMsg||"Скопировано");
-      }catch(e){ window.prompt("Скопируй вручную:", txt); }
-    }
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(txt).then(function(){ toast(okMsg||"Скопировано"); }, fallback);
-    } else fallback();
-  }
-
-  function exportList(){
-    var lines=visibleSorted().map(function(g){
-      var c=counts(g);
-      return "• "+g.title+(g.platform?" ["+g.platform+"]":"")+"  (🔥"+c.go+" 👍"+c.ok+" 🤔"+c.mb+" 👎"+c.no+")";
-    });
-    var txt="Во что играем — "+shortRoom(room)+"\n"+lines.join("\n")+"\n\n[data]"+JSON.stringify(state);
-    copyText(txt, "Список скопирован");
-  }
-  function importList(){
-    var raw=window.prompt("Вставь данные (из «Экспорт» другого устройства):","");
-    if(!raw) return;
-    var m=raw.match(/\[data\](\{[\s\S]*\})\s*$/);
-    var jsonStr = m ? m[1] : raw;
-    try{
-      var incoming=normalize(JSON.parse(jsonStr));
-      state=mergeState(state, incoming);
-      toast("Импортировано и объединено");
-      bumpLocal();
-    }catch(e){ toast("Не смог разобрать данные"); }
-  }
-
-  var roomOpen=false;
-  function openRoomPanel(open){
-    roomOpen = open==null ? !roomOpen : open;
-    $("roomPanel").classList.toggle("open", roomOpen);
-    if(roomOpen){ $("roomCode").textContent = isLocalRoom(room)? "локальная комната (без синка)" : room; }
-  }
-
-  // ---------- рендер ----------
   function renderIdentity(){
-    $("whoName").textContent = me.name || "гость";
-    $("whoBadge").textContent = me.name ? me.name.charAt(0).toUpperCase() : "?";
-    $("roomName").textContent = shortRoom(room);
-    if(roomOpen) $("roomCode").textContent = isLocalRoom(room)? "локальная комната (без синка)" : room;
+    $("whoName").textContent=me.name||"гость";
+    $("whoBadge").textContent=me.name?me.name.charAt(0).toUpperCase():"?";
+    $("roomName").textContent=shortRoom(room);
+    if(roomOpen)$("roomCode").textContent=isLocalRoom(room)?"локальная комната (без синка)":room;
   }
-
+  function renderTabs(){
+    var all=activeItems(), cg=all.filter(function(g){return g.type==="game";}).length, cm=all.filter(function(g){return g.type==="movie";}).length;
+    var defs=[{k:"all",label:"Все",emoji:"✨",n:all.length},{k:"game",label:"Игры",emoji:"🎮",n:cg},{k:"movie",label:"Фильмы и сериалы",emoji:"🎬",n:cm}];
+    var html=""; defs.forEach(function(d){html+='<button class="tab'+(activeCat===d.k?" on":"")+'" data-tab="'+d.k+'"><span>'+d.emoji+'</span>'+d.label+' <span class="cnt">'+d.n+'</span></button>';});
+    $("tabs").innerHTML=html;
+  }
+  function plural(n,f){n=Math.abs(n)%100;var n1=n%10;if(n>10&&n<20)return f[2];if(n1>1&&n1<5)return f[1];if(n1===1)return f[0];return f[2];}
   function render(){
-    var arr=visibleSorted();
-    var list=$("list"), empty=$("empty");
-    $("countLbl").textContent = arr.length ? (arr.length+" "+plural(arr.length,["игра","игры","игр"])) : "";
-    if(!arr.length){ list.innerHTML=""; empty.style.display="block"; return; }
+    renderTabs();
+    var arr=filtered(), list=$("list"), empty=$("empty");
+    $("countLbl").textContent=arr.length?(arr.length+" "+plural(arr.length,["позиция","позиции","позиций"])):"";
+    if(!arr.length){list.innerHTML="";empty.style.display="block";
+      $("emptyText").textContent=activeCat==="movie"?"Пока нет фильмов — добавь сверху!":(activeCat==="game"?"Пока нет игр — закинь первую!":"Пока пусто. Закинь что-нибудь сверху!");
+      return;}
     empty.style.display="none";
-
     var html="";
     for(var i=0;i<arr.length;i++){
-      var g=arr[i], c=counts(g), vb=votersByReact(g);
-      var myR = g.votes[me.id] && g.votes[me.id].r;
-      var scoreCls = c.score>0?"pos":(c.score<0?"neg":"zero");
-      var topCls = (i===0 && c.score>0) ? " top" : "";
-      var canDel = !g.addedById || g.addedById===me.id;
-
-      var reactsHtml="";
-      for(var j=0;j<REACTS.length;j++){
-        var R=REACTS[j], on = myR===R.k ? " on "+R.k : "";
-        reactsHtml += '<button class="react'+on+'" data-vote="'+R.k+'" data-id="'+g.id+'">'+
-          '<span class="emo">'+R.emo+'</span>'+R.label+' <span class="cnt">'+c[R.k]+'</span></button>';
-      }
-
-      var voterLines="";
-      for(var k=0;k<REACTS.length;k++){
-        var RK=REACTS[k], names=vb[RK.k];
-        if(names && names.length){
-          voterLines += '<div class="vline"><span class="em">'+RK.emo+'</span> <b>'+esc(names.join(", "))+'</b></div>';
-        }
-      }
-
-      html += '<div class="game'+topCls+'">'+
-        (canDel? '<button class="del" data-del="'+g.id+'" title="Убрать">×</button>':'')+
-        '<div class="head">'+
-          '<div class="rank">'+(i+1)+'</div>'+
-          '<div class="info">'+
-            '<p class="name">'+esc(g.title)+ (g.platform? ' <span class="plat">'+esc(g.platform)+'</span>':'') +'</p>'+
-            (g.note? '<p class="note">'+esc(g.note)+'</p>':'')+
-            '<p class="meta">'+(g.addedBy? 'добавил(а) '+esc(g.addedBy) : 'из примеров')+'</p>'+
-          '</div>'+
-          '<div class="score '+scoreCls+'"><div class="val">'+(c.score>0?"+":"")+c.score+'</div><div class="lbl">хайп</div></div>'+
-        '</div>'+
-        '<div class="reacts">'+reactsHtml+'</div>'+
-        (voterLines? '<div class="voters">'+voterLines+'</div>':'')+
-      '</div>';
+      var g=arr[i],c=counts(g),vb=votersByReact(g),myR=g.votes[me.id]&&g.votes[me.id].r;
+      var scoreCls=c.score>0?"pos":(c.score<0?"neg":"zero"),topCls=(i===0&&c.score>0)?" top":"";
+      var canDel=!g.addedById||g.addedById===me.id;
+      var plats=(g.type==="game"&&g.platforms.length)?g.platforms.map(function(p){return '<span class="plat">'+esc(p)+'</span>';}).join(""):"";
+      var reactsHtml="";for(var j=0;j<REACTS.length;j++){var R=REACTS[j],on=myR===R.k?" on "+R.k:"";
+        reactsHtml+='<button class="react'+on+'" data-vote="'+R.k+'" data-id="'+g.id+'"><span class="emo">'+R.emo+'</span>'+R.label+' <span class="cnt">'+c[R.k]+'</span></button>';}
+      var voterLines="";for(var k=0;k<REACTS.length;k++){var RK=REACTS[k],names=vb[RK.k];if(names&&names.length)voterLines+='<div class="vline"><span class="em">'+RK.emo+'</span> <b>'+esc(names.join(", "))+'</b></div>';}
+      html+='<div class="game'+topCls+'">'+(canDel?'<button class="del" data-del="'+g.id+'" title="Убрать">×</button>':'')+
+        '<div class="head"><div class="rank">'+(i+1)+'</div><div class="info">'+
+          '<p class="name"><span class="catbadge">'+(g.type==="movie"?"🎬":"🎮")+'</span>'+esc(g.title)+plats+'</p>'+
+          (g.note?'<p class="note">'+esc(g.note)+'</p>':'')+
+          '<p class="meta">'+(g.addedBy?'добавил(а) '+esc(g.addedBy):'из примеров')+'</p></div>'+
+          '<div class="score '+scoreCls+'"><div class="val">'+(c.score>0?"+":"")+c.score+'</div><div class="lbl">хайп</div></div></div>'+
+        '<div class="reacts">'+reactsHtml+'</div>'+(voterLines?'<div class="voters">'+voterLines+'</div>':'')+'</div>';
     }
     list.innerHTML=html;
   }
 
-  function plural(n,f){ n=Math.abs(n)%100; var n1=n%10;
-    if(n>10&&n<20) return f[2]; if(n1>1&&n1<5) return f[1]; if(n1===1) return f[0]; return f[2]; }
-
-  // ---------- события ----------
   function bind(){
-    $("addBtn").addEventListener("click", addGame);
-    $("gTitle").addEventListener("keydown", function(e){ if(e.key==="Enter") addGame(); });
-    $("gPlat").addEventListener("keydown", function(e){ if(e.key==="Enter") addGame(); });
-    $("gNote").addEventListener("keydown", function(e){ if(e.key==="Enter") addGame(); });
-
-    $("list").addEventListener("click", function(e){
-      var vb=e.target.closest("[data-vote]");
-      if(vb){ vote(vb.getAttribute("data-id"), vb.getAttribute("data-vote")); return; }
-      var db=e.target.closest("[data-del]");
-      if(db){ delGame(db.getAttribute("data-del")); return; }
-    });
-
-    $("editName").addEventListener("click", function(){ openNameModal(); });
-    $("nameSave").addEventListener("click", saveName);
-    $("nameInput").addEventListener("keydown", function(e){ if(e.key==="Enter") saveName(); });
-
-    $("roomToggle").addEventListener("click", function(){ openRoomPanel(); });
-    $("copyCode").addEventListener("click", function(){ if(isLocalRoom(room)){ toast("Локальная комната — кода нет"); return;} copyText(room, "Код скопирован"); });
-    $("copyLink").addEventListener("click", function(){
-      var url = location.origin+location.pathname + (room!==DEFAULT_ROOM ? "#room="+room : "");
-      copyText(url, "Ссылка скопирована");
-    });
-    $("joinBtn").addEventListener("click", function(){ joinRoom($("joinInput").value); $("joinInput").value=""; });
-    $("joinInput").addEventListener("keydown", function(e){ if(e.key==="Enter"){ joinRoom($("joinInput").value); $("joinInput").value=""; } });
-    $("newRoom").addEventListener("click", newRoom);
-    $("exportBtn").addEventListener("click", exportList);
-    $("importBtn").addEventListener("click", importList);
-
-    $("nameOverlay").addEventListener("click", function(e){ if(e.target===$("nameOverlay") && me.name){ $("nameOverlay").classList.remove("show"); } });
+    $("addBtn").addEventListener("click",addItem);
+    $("gTitle").addEventListener("keydown",function(e){if(e.key==="Enter")addItem();});
+    $("gNote").addEventListener("keydown",function(e){if(e.key==="Enter")addItem();});
+    $("catSeg").addEventListener("click",function(e){var b=e.target.closest("[data-cat]");if(b)setAddCat(b.getAttribute("data-cat"));});
+    $("platRow").addEventListener("click",function(e){var b=e.target.closest("[data-plat]");if(!b)return;var p=b.getAttribute("data-plat");if(addPlats[p])delete addPlats[p];else addPlats[p]=1;renderPlatRow();});
+    $("tabs").addEventListener("click",function(e){var b=e.target.closest("[data-tab]");if(!b)return;activeCat=b.getAttribute("data-tab");if(activeCat!=="all")setAddCat(activeCat);render();});
+    $("list").addEventListener("click",function(e){var vb=e.target.closest("[data-vote]");if(vb){vote(vb.getAttribute("data-id"),vb.getAttribute("data-vote"));return;}var db=e.target.closest("[data-del]");if(db){delItem(db.getAttribute("data-del"));return;}});
+    $("recgrid").addEventListener("click",function(e){var b=e.target.closest("[data-rec]");if(b)addFromCatalog(b.getAttribute("data-rec"));});
+    $("ideaBtn").addEventListener("click",function(){recOpen=!recOpen;$("recsPanel").classList.toggle("open",recOpen);if(recOpen)renderRecs();});
+    $("rouletteBtn").addEventListener("click",openRoulette);
+    $("roulClose").addEventListener("click",function(){clearTimeout(roulTimer);$("roulOverlay").classList.remove("show");});
+    $("roulAgain").addEventListener("click",openRoulette);
+    $("roulOverlay").addEventListener("click",function(e){if(e.target===$("roulOverlay")){clearTimeout(roulTimer);$("roulOverlay").classList.remove("show");}});
+    $("editName").addEventListener("click",function(){openNameModal();});
+    $("nameSave").addEventListener("click",saveName);
+    $("nameInput").addEventListener("keydown",function(e){if(e.key==="Enter")saveName();});
+    $("roomToggle").addEventListener("click",function(){openRoomPanel();});
+    $("copyCode").addEventListener("click",function(){if(isLocalRoom(room)){toast("Локальная комната — кода нет");return;}copyText(room,"Код скопирован");});
+    $("copyLink").addEventListener("click",function(){copyText(location.origin+location.pathname+(room!==DEFAULT_ROOM?"#room="+room:""),"Ссылка скопирована");});
+    $("joinBtn").addEventListener("click",function(){joinRoom($("joinInput").value);$("joinInput").value="";});
+    $("joinInput").addEventListener("keydown",function(e){if(e.key==="Enter"){joinRoom($("joinInput").value);$("joinInput").value="";}});
+    $("newRoom").addEventListener("click",newRoom);
+    $("exportBtn").addEventListener("click",exportList);
+    $("importBtn").addEventListener("click",importList);
+    $("nameOverlay").addEventListener("click",function(e){if(e.target===$("nameOverlay")&&me.name)$("nameOverlay").classList.remove("show");});
   }
 
-  // ---------- инициализация ----------
   function init(){
-    bind();
-    // личность
-    me.id=lsGet("vig_id")||null;
-    me.name=lsGet("vig_name")||null;
-    if(!me.id){ me.id=uid(); lsSet("vig_id", me.id); }
-
-    // комната: hash > localStorage > дефолт
-    var hash=location.hash||"";
-    var hm=hash.match(/room=([\w-]+)/);
-    if(hm){ room=hm[1]; }
-    else { room=lsGet("vig_room")||DEFAULT_ROOM; }
-    lsSet("vig_room", room);
-    updateHash();
-
-    // мгновенный рендер из кэша
-    var cached=loadLocal(room);
-    if(cached) state=cached;
-    renderIdentity(); render();
-    setStatus(isLocalRoom(room)?"local":"connecting");
-
-    // имя при первом заходе
-    if(!me.name){ openNameModal(); }
-
-    // старт синхронизации
-    syncTick();
-    startPolling();
-
-    // при возврате на вкладку — сразу подтянуть
-    document.addEventListener("visibilitychange", function(){ if(!document.hidden) syncTick(); });
-    window.addEventListener("focus", syncTick);
+    bind(); setAddCat("game"); renderPlatRow();
+    me.id=lsGet("vig_id")||null; me.name=lsGet("vig_name")||null; if(!me.id){me.id=uid();lsSet("vig_id",me.id);}
+    var hash=location.hash||"",hm=hash.match(/room=([\w-]+)/);
+    if(hm)room=hm[1];else room=lsGet("vig_room")||DEFAULT_ROOM;
+    lsSet("vig_room",room);updateHash();
+    var cached=loadLocal(room);if(cached)state=cached;
+    renderIdentity();render();setStatus(isLocalRoom(room)?"local":"connecting");
+    if(!me.name)openNameModal();
+    syncTick();startPolling();
+    document.addEventListener("visibilitychange",function(){if(!document.hidden)syncTick();});
+    window.addEventListener("focus",syncTick);
   }
-
-  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", init);
-  else init();
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();
 </script>
 </body>
